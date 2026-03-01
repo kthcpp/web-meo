@@ -625,13 +625,61 @@ let name=document.getElementById("name").value;
 let personality=document.getElementById("personality").value;
 let personalityDesc = "";
 
-if(personality==="logic") personalityDesc="Bạn có tư duy hệ thống và giải quyết vấn đề tốt.";
-if(personality==="creative") personalityDesc="Bạn có khả năng sáng tạo và đổi mới cao.";
-if(personality==="social") personalityDesc="Bạn giỏi giao tiếp và kết nối con người.";
-if(personality==="leader") personalityDesc="Bạn có tố chất dẫn dắt và truyền cảm hứng.";
-if(personality==="analyst") personalityDesc="Bạn phân tích dữ liệu và ra quyết định logic.";
-if(personality==="independent") personalityDesc="Bạn làm việc độc lập và tự chủ tốt.";
-if(personality==="adaptive") personalityDesc="Bạn thích nghi nhanh với môi trường mới.";
+if(personality==="logic")
+personalityDesc = randomFrom([
+    "Bạn có tư duy hệ thống và giải quyết vấn đề tốt.",
+    "Bạn suy nghĩ theo cấu trúc rõ ràng và logic.",
+    "Bạn thích phân tích vấn đề trước khi hành động.",
+    "Bạn xử lý tình huống dựa trên lý trí và lập luận."
+]);
+
+if(personality==="creative")
+personalityDesc = randomFrom([
+    "Bạn có khả năng sáng tạo và đổi mới cao.",
+    "Bạn luôn nghĩ ra những ý tưởng khác biệt.",
+    "Bạn thích thử nghiệm những hướng đi mới.",
+    "Bạn có tư duy linh hoạt và giàu tưởng tượng."
+]);
+
+if(personality==="social")
+personalityDesc = randomFrom([
+    "Bạn giỏi giao tiếp và kết nối con người.",
+    "Bạn dễ dàng tạo thiện cảm với người khác.",
+    "Bạn phát triển mạnh trong môi trường tập thể.",
+    "Bạn xây dựng mối quan hệ rất tự nhiên."
+]);
+
+if(personality==="leader")
+personalityDesc = randomFrom([
+    "Bạn có tố chất dẫn dắt và truyền cảm hứng.",
+    "Bạn tự tin đưa ra quyết định quan trọng.",
+    "Bạn có khả năng định hướng cho tập thể.",
+    "Bạn dễ trở thành trung tâm của một nhóm."
+]);
+
+if(personality==="analyst")
+personalityDesc = randomFrom([
+    "Bạn phân tích dữ liệu và ra quyết định logic.",
+    "Bạn chú ý đến chi tiết và độ chính xác.",
+    "Bạn suy nghĩ kỹ trước khi kết luận.",
+    "Bạn đánh giá vấn đề dựa trên bằng chứng."
+]);
+
+if(personality==="independent")
+personalityDesc = randomFrom([
+    "Bạn làm việc độc lập và tự chủ tốt.",
+    "Bạn không phụ thuộc vào người khác khi ra quyết định.",
+    "Bạn thích tự chịu trách nhiệm cho lựa chọn của mình.",
+    "Bạn có tinh thần tự lập mạnh mẽ."
+]);
+
+if(personality==="adaptive")
+personalityDesc = randomFrom([
+    "Bạn thích nghi nhanh với môi trường mới.",
+    "Bạn linh hoạt trước những thay đổi bất ngờ.",
+    "Bạn dễ dàng hòa nhập với hoàn cảnh khác nhau.",
+    "Bạn xử lý biến động một cách bình tĩnh."
+]);
     
 let career=document.getElementById("career").value;
 let data=careerData(career);
@@ -641,7 +689,7 @@ let randomVanDeArr = randomMultiple(vanDeList, 2, 3);
 
 let vanDeHTML = "<ul>";
 randomVanDeArr.forEach(v => {
-  vanDeHTML += "<li>⚠ " + v + "</li>";
+  vanDeHTML += "<li>! " + v + "</li>";
 });
 vanDeHTML += "</ul>";
 
@@ -795,6 +843,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
