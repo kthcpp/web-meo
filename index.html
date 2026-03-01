@@ -22,7 +22,7 @@ body{
   height:100%;
   z-index:-1;
   display:none;
-  background:black;
+  background:linear-gradient(135deg, #0f2027, #203a43, #2c5364);
 }
 
 .container{
@@ -103,12 +103,16 @@ button{
 <option value="social">Hướng ngoại</option>
 <option value="leader">Lãnh đạo</option>
 <option value="analyst">Phân tích</option>
+<option value="independent">Độc lập</option>
+<option value="adaptive">Thích nghi nhanh</option>
 </select>
 
 <select id="career">
 <option value="dev">Lập trình viên</option>
 <option value="designer">Thiết kế</option>
 <option value="data">Kỹ sư dữ liệu</option>
+<option value="marketing">Tiếp thị kỹ thuật số</option>
+<option value="teacher">Giáo viên</option>
 <option value="game">Game Dev</option>
 <option value="business">Doanh nhân</option>
 </select>
@@ -129,12 +133,12 @@ button{
 </div>
 
 <div class="result-box">
-<h2>⚠ Vấn đề có thể gặp</h2>
+<h2>⚠️ Vấn đề có thể gặp</h2>
 <p id="vanDe"></p>
 </div>
 
 <div class="result-box">
-<h2>🔮 Nâng cao</h2>
+<h2>🔮 Phân tích nâng cao</h2>
 <p id="advancedResult"></p>
 </div>
 
@@ -187,8 +191,6 @@ function startMatrix(){
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
     ctx.fillStyle="#c84dff";
-    ctx.shadowColor="#ff00ff";
-    ctx.shadowBlur=15;
     ctx.font=fontSize+"px monospace";
 
     for(let i=0;i<drops.length;i++){
@@ -214,6 +216,33 @@ function stopMatrix(){
   cancelAnimationFrame(matrixAnimationId);
 }
 
+/* ===== DATA ===== */
+
+const vanDeTheoNganh={
+dev:["Deadline dồn dập.","Sửa bug liên tục.","Công nghệ đổi nhanh.","Áp lực khách hàng.","Ngồi lâu hại sức khỏe."],
+designer:["Sửa thiết kế nhiều lần.","Ý tưởng bí.","Deadline gấp.","Bị ép giá.","Chạy theo xu hướng."],
+teacher:["Áp lực thi cử.","Chấm bài nhiều.","Phụ huynh gây áp lực.","Thu nhập chưa cao.","Học sinh thiếu tập trung."],
+marketing:["Thuật toán thay đổi.","Chi phí quảng cáo cao.","Áp lực KPI.","Nội dung bão hòa.","Cạnh tranh mạnh."],
+data:["Dữ liệu bẩn.","Xử lý chậm.","Pipeline đổi liên tục.","Đồng bộ khó.","Áp lực bảo mật."],
+game:["Bug cuối dự án.","Tối ưu khó.","Thiếu ngân sách.","Game flop.","Áp lực phát hành."],
+business:["Rủi ro tài chính.","Quản lý khó.","Thị trường biến động.","Áp lực lợi nhuận.","Cạnh tranh cao."]
+};
+
+function careerData(career){
+
+const dataMap={
+dev:{salary5:rand(22,30),salary10:rand(45,65),skills:[rand(85,95),rand(55,70),rand(45,65)],color:"#00ffcc"},
+designer:{salary5:rand(18,25),salary10:rand(35,50),skills:[rand(45,65),rand(85,98),rand(60,80)],color:"#ff66cc"},
+teacher:{salary5:rand(14,20),salary10:rand(25,40),skills:[rand(55,70),rand(65,80),rand(85,98)],color:"#ffd166"},
+marketing:{salary5:rand(20,28),salary10:rand(40,60),skills:[rand(55,70),rand(80,95),rand(80,95)],color:"#ff914d"},
+data:{salary5:rand(28,40),salary10:rand(55,80),skills:[rand(90,98),rand(45,60),rand(50,65)],color:"#4dabf7"},
+game:{salary5:rand(25,35),salary10:rand(50,75),skills:[rand(80,95),rand(70,90),rand(55,75)],color:"#9d4edd"},
+business:{salary5:rand(30,45),salary10:rand(70,150),skills:[rand(65,80),rand(65,85),rand(90,100)],color:"#38b000"}
+};
+
+return dataMap[career];
+}
+
 /* ===== SIMULATE ===== */
 
 let chartInstance;
@@ -221,63 +250,30 @@ let chartInstance;
 function simulate(){
 
 let name=document.getElementById("name").value||"Bạn";
-let personality=document.getElementById("personality").value;
 let career=document.getElementById("career").value;
 let advanced=document.getElementById("advancedMode").checked;
 
-let salary5=rand(20,40);
-let salary10=rand(50,120);
-
-let desc5=randomFrom([
-"Bạn tham gia nhiều dự án lớn.",
-"Bạn làm việc trong môi trường quốc tế.",
-"Bạn phát triển kỹ năng chuyên sâu."
-]);
-
-let desc10=randomFrom([
-"Bạn trở thành chuyên gia đầu ngành.",
-"Bạn quản lý một team lớn.",
-"Bạn mở dự án riêng."
-]);
-
-let vanDeList=[
-"Deadline dồn dập.",
-"Áp lực từ khách hàng.",
-"Công nghệ thay đổi nhanh.",
-"Áp lực tài chính.",
-"Thiếu nhân lực."
-];
-
-let randomVanDe=randomMultiple(vanDeList,3);
+let data=careerData(career);
 
 let vanDeHTML="<ul>";
-randomVanDe.forEach(v=>{
-  vanDeHTML+="<li>"+v+"</li>";
-});
+randomMultiple(vanDeTheoNganh[career],3)
+.forEach(v=>vanDeHTML+="<li>"+v+"</li>");
 vanDeHTML+="</ul>";
 
 document.getElementById("vanDe").innerHTML=vanDeHTML;
 
 let match=rand(70,95);
-
-if(advanced){
-  startMatrix();
-  document.body.classList.add("advanced-theme");
-  match+=5;
-}else{
-  stopMatrix();
-  document.body.classList.remove("advanced-theme");
-}
-
-if(match>100) match=100;
+if(advanced){startMatrix();match+=5;}
+else stopMatrix();
+if(match>100)match=100;
 
 document.getElementById("output").style.display="block";
 
 document.getElementById("story5").innerText=
-name+" - 5 năm: "+desc5+" Thu nhập: "+salary5+" triệu/tháng";
+`${name} - 5 năm: Thu nhập khoảng ${data.salary5} triệu/tháng`;
 
 document.getElementById("story10").innerText=
-name+" - 10 năm: "+desc10+" Thu nhập: "+salary10+" triệu/tháng";
+`${name} - 10 năm: Thu nhập khoảng ${data.salary10} triệu/tháng`;
 
 document.getElementById("advancedResult").innerText=
 advanced?"Phân tích chuyên sâu đã kích hoạt.":"";
@@ -286,7 +282,7 @@ let bar=document.getElementById("matchBar");
 bar.style.width="0%";
 setTimeout(()=>{bar.style.width=match+"%";},200);
 
-if(chartInstance) chartInstance.destroy();
+if(chartInstance)chartInstance.destroy();
 
 chartInstance=new Chart(document.getElementById("skillChart"),{
 type:'bar',
@@ -294,8 +290,8 @@ data:{
 labels:["Logic","Sáng tạo","Giao tiếp"],
 datasets:[{
 label:"Kỹ năng",
-data:[rand(60,100),rand(60,100),rand(60,100)],
-backgroundColor:"#bb00ff",
+data:data.skills,
+backgroundColor:data.color,
 borderRadius:8
 }]
 },
@@ -304,9 +300,7 @@ responsive:true,
 scales:{y:{beginAtZero:true,max:100}}
 }
 });
-
 }
-
 </script>
 
 </body>
