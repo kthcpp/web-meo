@@ -129,6 +129,21 @@ canvas{
     transform:translateY(0);
   }
 }
+
+/* 🔮 Advanced Mode Theme */
+.advanced-theme{
+  background: linear-gradient(135deg,#1a0033,#330066,#4b0082);
+}
+
+.advanced-box{
+  box-shadow: 0 0 20px #bb00ff;
+  border:1px solid #bb00ff;
+}
+
+.glow-text{
+  text-shadow:0 0 10px #bb00ff,0 0 20px #bb00ff;
+}
+    
 </style>
 </head>
 <body>
@@ -138,6 +153,14 @@ canvas{
 <div class="container">
 
 <input type="text" id="name" placeholder="Nhập tên của bạn"><br>
+
+<input type="date" id="birthdate"><br>
+
+<label>
+  <input type="checkbox" id="advancedMode">
+  🔮 Bật phân tích nâng cao
+</label>
+<br>
 
 <select id="personality">
 <option value="logic">Tư duy logic</option>
@@ -183,6 +206,11 @@ canvas{
   <p id="vanDe"></p>
 </div>
 
+<div class="result-box">
+  <h2>🔮 Phân tích nâng cao</h2>
+  <p id="advancedResult"></p>
+</div>
+
 <h3>Mức độ phù hợp</h3>
 <div class="progress-bar">
 <div class="progress" id="matchBar"></div>
@@ -208,6 +236,73 @@ function rand(min, max){
 function randomFrom(arr){
   return arr[Math.floor(Math.random() * arr.length)];
 }
+
+// ===== 🔮 CUNG HOÀNG ĐẠO + MÔ TẢ =====
+const zodiacData = {
+  "Bạch Dương": "Năng động, tiên phong, hợp môi trường cạnh tranh.",
+  "Kim Ngưu": "Kiên định, thực tế, phù hợp công việc ổn định.",
+  "Song Tử": "Giao tiếp tốt, linh hoạt, hợp marketing & truyền thông.",
+  "Cự Giải": "Cảm xúc sâu sắc, hợp giáo dục & chăm sóc.",
+  "Sư Tử": "Lãnh đạo, nổi bật, hợp kinh doanh & sáng tạo.",
+  "Xử Nữ": "Phân tích tốt, hợp data & kỹ thuật.",
+  "Thiên Bình": "Cân bằng, thẩm mỹ cao, hợp thiết kế.",
+  "Bọ Cạp": "Chiến lược, sâu sắc, hợp công nghệ & nghiên cứu.",
+  "Nhân Mã": "Tự do, khám phá, hợp startup & sáng tạo.",
+  "Ma Kết": "Kỷ luật, bền bỉ, hợp quản lý & kỹ thuật.",
+  "Bảo Bình": "Đổi mới, sáng tạo, hợp công nghệ tương lai.",
+  "Song Ngư": "Trực giác mạnh, hợp nghệ thuật & giáo dục."
+};
+
+function getZodiac(day, month){
+  const signs = [
+    {name:"Ma Kết", from:[22,12], to:[19,1]},
+    {name:"Bảo Bình", from:[20,1], to:[18,2]},
+    {name:"Song Ngư", from:[19,2], to:[20,3]},
+    {name:"Bạch Dương", from:[21,3], to:[19,4]},
+    {name:"Kim Ngưu", from:[20,4], to:[20,5]},
+    {name:"Song Tử", from:[21,5], to:[20,6]},
+    {name:"Cự Giải", from:[21,6], to:[22,7]},
+    {name:"Sư Tử", from:[23,7], to:[22,8]},
+    {name:"Xử Nữ", from:[23,8], to:[22,9]},
+    {name:"Thiên Bình", from:[23,9], to:[22,10]},
+    {name:"Bọ Cạp", from:[23,10], to:[21,11]},
+    {name:"Nhân Mã", from:[22,11], to:[21,12]}
+  ];
+
+  for(let s of signs){
+    if(
+      (month===s.from[1] && day>=s.from[0]) ||
+      (month===s.to[1] && day<=s.to[0])
+    ){
+      return s.name;
+    }
+  }
+}
+
+// ===== 🔢 THẦN SỐ HỌC =====
+function getLifePath(dateString){
+  let nums = dateString.replaceAll("-","").split("").map(Number);
+  let sum = nums.reduce((a,b)=>a+b,0);
+  while(sum > 9){
+    sum = sum.toString().split("").map(Number).reduce((a,b)=>a+b,0);
+  }
+  return sum;
+}
+
+// ===== 🌿 NGŨ HÀNH =====
+function getElement(year){
+  const elements = ["Kim","Thủy","Mộc","Hỏa","Thổ"];
+  return elements[year % 5];
+}
+
+// ===== 🌟 HỢP NGÀNH THEO NGŨ HÀNH =====
+const elementCareerBoost = {
+  "Hỏa":["marketing","game","business"],
+  "Thủy":["data","teacher"],
+  "Mộc":["designer"],
+  "Kim":["dev","data"],
+  "Thổ":["teacher","business"]
+};
 
 const vanDeTheoNganh = {
     dev: [
@@ -464,8 +559,15 @@ let career=document.getElementById("career").value;
 let data=careerData(career);
 
 let vanDeList = vanDeTheoNganh[career];
-let randomVanDe = vanDeList[Math.floor(Math.random() * vanDeList.length)];
-document.getElementById("vanDe").innerText = randomVanDe;
+let randomVanDeArr = randomMultiple(vanDeList, 2, 3);
+
+let vanDeHTML = "<ul>";
+randomVanDeArr.forEach(v => {
+  vanDeHTML += "<li>⚠ " + v + "</li>";
+});
+vanDeHTML += "</ul>";
+
+document.getElementById("vanDe").innerHTML = vanDeHTML;
 
 document.getElementById("loading").style.display="none";
 document.getElementById("output").style.display="block";
@@ -519,9 +621,62 @@ if(personality==="adaptive" && career==="business") match=88;
 let bar = document.getElementById("matchBar");
 bar.style.width = "0%";
 
+// 🔮 ===== PHÂN TÍCH HUYỀN HỌC PRO MAX =====
+let advancedMode = document.getElementById("advancedMode").checked;
+let birthdate = document.getElementById("birthdate").value;
+let advancedText = "";
+
+if(advancedMode && birthdate){
+
+  document.body.classList.add("advanced-theme");
+
+  let dateObj = new Date(birthdate);
+  let zodiac = getZodiac(dateObj.getDate(), dateObj.getMonth()+1);
+  let lifePath = getLifePath(birthdate);
+  let element = getElement(dateObj.getFullYear());
+
+  advancedText += `🔮 Cung: ${zodiac}\n${zodiacData[zodiac]}\n\n`;
+  advancedText += `🔢 Thần số học: ${lifePath}\n`;
+  advancedText += `🌿 Ngũ hành: ${element}\n\n`;
+
+  if(elementCareerBoost[element] && elementCareerBoost[element].includes(career)){
+    match += 10;
+    advancedText += "✨ Ngành nghề này tương sinh với ngũ hành của bạn.\n";
+  }else{
+    match -= 5;
+    advancedText += "⚠ Ngành này có thể không hoàn toàn tương hợp ngũ hành.\n";
+  }
+
+  if(lifePath === 1 || lifePath === 8){
+    match += 5;
+  }
+
+  if(match > 100) match = 100;
+  if(match < 40) match = 40;
+
+  bar.style.width = match + "%";
+
+}else{
+  document.body.classList.remove("advanced-theme");
+}
+
+bar.style.width = "0%";
+
 setTimeout(()=>{
   bar.style.width = match + "%";
 },200);
+
+document.getElementById("advancedResult").innerText = advancedText;
+
+let advancedBox = document
+  .getElementById("advancedResult")
+  .parentElement;
+
+if(advancedMode && birthdate){
+  advancedBox.classList.add("advanced-box");
+}else{
+  advancedBox.classList.remove("advanced-box");
+}
 
 if(chartInstance) chartInstance.destroy();
 
@@ -560,6 +715,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
