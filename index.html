@@ -856,7 +856,7 @@ if(advancedMode && birthdate){
   let zodiac = getZodiac(dateObj.getDate(), dateObj.getMonth()+1);
   let lifePath = getLifePath(birthdate);
   let element = getElement(dateObj.getFullYear());
-#a54df7
+
   advancedText += `🔮 <span style='color:#a54df7'>Cung: ${zodiac}\n${zodiacData[zodiac]}</span>\n\n`;
   advancedText += `🔢 <span style='color:#a54df7'>Thần số học: ${lifePath}</span>\n`;
   advancedText += `🌿 <span style='color:#a54df7'>Ngũ hành: ${element}</span>\n\n`;
@@ -938,6 +938,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
