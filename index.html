@@ -53,6 +53,8 @@ body.advanced-theme::before{
         box-shadow:0 0 25px rgba(0,255,200,0.9);
     }
 }
+
+animation: slideInRight 0.9s cubic-bezier(.22,1,.36,1) forwards;
     
 .result-box{
     backdrop-filter: blur(8px);
@@ -179,6 +181,20 @@ canvas:not(#matrixCanvas){
 
 .glow-text{
   text-shadow:0 0 10px #bb00ff,0 0 20px #bb00ff;
+}
+
+/* hiệu ứng trượt */
+.slide-in{
+  opacity: 0;
+  transform: translateX(-40px);
+  animation: slideInRight 0.7s ease forwards;
+}
+
+@keyframes slideInRight{
+  to{
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @media (max-width: 600px){
@@ -622,11 +638,17 @@ function startMatrix(){
     }
   }
 
-  function animate(){
-  draw();
-  requestAnimationFrame(animate);
-  }
-  animate();
+    let speed = 4; // số càng lớn càng chậm
+    let frame = 0;
+
+    function animate(){
+      frame++;
+      if(frame % speed === 0){
+        draw();
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
 }
 
 function stopMatrix(){
@@ -722,6 +744,15 @@ document.getElementById("vanDe").innerHTML = vanDeHTML;
 
 document.getElementById("loading").style.display="none";
 document.getElementById("output").style.display="block";
+
+let boxes = document.querySelectorAll(".result-box");
+boxes.forEach((box, index) => {
+  box.classList.remove("slide-in");
+  void box.offsetWidth; // reset animation
+  box.style.animationDelay = (index * 0.15) + "s"; // trễ từng box
+  box.classList.add("slide-in");
+});
+    //////////////////////////////
 let boxes = document.querySelectorAll(".result-box");
 boxes.forEach(box=>{
   box.classList.remove("glow");
@@ -868,6 +899,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
