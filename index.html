@@ -12,14 +12,19 @@
 body{
     font-family: Arial, sans-serif;
     text-align: center;
+    background: linear-gradient(135deg,#0ee94c,#0aa83a,#064f1f);
+    animation: bgPulse 4s ease-in-out infinite alternate;
 }
 
-#box {
-    width: 200px;
-    height: 200px;
-    background-color: linear-gradient(135deg,#0ee94c,#0aa83a,#064f1f);
+@keyframes bgPulse{
+    from{
+        filter: brightness(0.8);
+    }
+    to{
+        filter: brightness(1.3);
+    }
 }
-
+    
 @keyframes glowEffect{
     from{
         box-shadow:0 0 10px rgba(0,255,200,0.3);
@@ -246,25 +251,6 @@ canvas:not(#matrixCanvas){
 </div>
 
 <script>
-
-    /////
-let value = 100;      // độ sáng ban đầu
-let direction = 1;    // 1 = tăng, -1 = giảm
-
-function animate() {
-    value += direction;
-
-    if (value >= 255) direction = -1; 
-    if (value <= 50) direction = 1;
-
-    document.getElementById("box").style.backgroundColor =
-        `rgb(${value}, ${value}, 255)`;
-
-    requestAnimationFrame(animate);
-}
-
-animate();
-    //////
 
 function randomMultiple(arr, min = 2, max = 3){
   let count = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -862,6 +848,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
