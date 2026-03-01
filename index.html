@@ -13,6 +13,20 @@ body{
     text-align:center;
     padding:20px;
 }
+    
+.glow{
+    animation:glowEffect 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glowEffect{
+    from{
+        box-shadow:0 0 10px rgba(0,255,200,0.3);
+    }
+    to{
+        box-shadow:0 0 25px rgba(0,255,200,0.9);
+    }
+}
+    
 .result-box{
     backdrop-filter: blur(8px);
     background: rgba(255,255,255,0.08);
@@ -116,6 +130,10 @@ canvas{
 <option value="dev">Lập trình viên</option>
 <option value="designer">Thiết kế đồ họa</option>
 <option value="teacher">Giáo viên</option>
+<option value="marketing">Tiếp thị kỹ thuật số</option>
+<option value="data">Kỹ sư dữ liệu</option>
+<option value="game">Nhà làm game</option>
+<option value="business">Doanh nhân</option>
 </select>
 
 <br>
@@ -156,6 +174,7 @@ return {
 salary5:"25 triệu/tháng",
 salary10:"50 triệu/tháng",
 skills:[90,60,50],
+color:"#00ffcc",
 desc5:"Bạn làm việc tại công ty công nghệ, tham gia nhiều dự án phần mềm.",
 desc10:"Bạn trở thành senior developer hoặc leader team."
 }
@@ -165,6 +184,7 @@ return {
 salary5:"20 triệu/tháng",
 salary10:"40 triệu/tháng",
 skills:[50,95,70],
+color:"#ff66cc"
 desc5:"Bạn làm việc sáng tạo với thương hiệu và sản phẩm.",
 desc10:"Bạn có thể mở studio riêng hoặc làm freelance quốc tế."
 }
@@ -174,8 +194,52 @@ return {
 salary5:"15 triệu/tháng",
 salary10:"30 triệu/tháng",
 skills:[60,70,95],
+color:"#ffd166"
 desc5:"Bạn giảng dạy và truyền cảm hứng cho học sinh.",
 desc10:"Bạn có thể trở thành chuyên gia giáo dục hoặc quản lý."
+}
+}
+if(career==="marketing"){
+return {
+salary5:"22 triệu/tháng",
+salary10:"45 triệu/tháng",
+skills:[60,85,90],
+color:"#ff914d"
+desc5:"Bạn làm việc trong lĩnh vực marketing số, xây dựng thương hiệu online.",
+desc10:"Bạn trở thành chuyên gia marketing hoặc quản lý chiến lược thương hiệu."
+}
+}
+
+if(career==="data"){
+return {
+salary5:"30 triệu/tháng",
+salary10:"60 triệu/tháng",
+skills:[95,50,55],
+color:"#4dabf7"
+desc5:"Bạn phân tích dữ liệu lớn và tối ưu hệ thống doanh nghiệp.",
+desc10:"Bạn trở thành Data Scientist cấp cao hoặc AI Specialist."
+}
+}
+
+if(career==="game"){
+return {
+salary5:"28 triệu/tháng",
+salary10:"55 triệu/tháng",
+skills:[85,80,60],
+color:"#9d4edd"
+desc5:"Bạn tham gia phát triển game và xây dựng thế giới ảo.",
+desc10:"Bạn có thể mở studio game riêng hoặc làm việc quốc tế."
+}
+}
+
+if(career==="business"){
+return {
+salary5:"35 triệu/tháng",
+salary10:"100 triệu/tháng",
+skills:[70,75,95],
+color:"#38b000"
+desc5:"Bạn khởi nghiệp và xây dựng dự án kinh doanh riêng.",
+desc10:"Bạn trở thành doanh nhân thành công và có hệ thống riêng."
 }
 }
 }
@@ -208,6 +272,12 @@ let data=careerData(career);
 
 document.getElementById("loading").style.display="none";
 document.getElementById("output").style.display="block";
+let boxes = document.querySelectorAll(".result-box");
+boxes.forEach(box=>{
+  box.classList.remove("glow");
+  void box.offsetWidth;
+  box.classList.add("glow");
+});
 
 document.getElementById("story5").innerText=
 name+" - 5 năm sau: "+data.desc5+
@@ -233,6 +303,22 @@ if(personality==="social" && career==="teacher") match=92;
 if(personality==="leader" && career==="teacher") match=88;
 if(personality==="adaptive" && career==="teacher") match=85;
 
+// marketing
+if(personality==="social" && career==="marketing") match=92;
+if(personality==="creative" && career==="marketing") match=88;
+
+// data
+if(personality==="analyst" && career==="data") match=95;
+if(personality==="logic" && career==="data") match=90;
+
+// game
+if(personality==="creative" && career==="game") match=92;
+if(personality==="logic" && career==="game") match=85;
+
+// business
+if(personality==="leader" && career==="business") match=95;
+if(personality==="adaptive" && career==="business") match=88;
+
 let bar = document.getElementById("matchBar");
 bar.style.width = "0%";
 
@@ -248,7 +334,9 @@ data:{
 labels:["Logic","Sáng tạo","Giao tiếp"],
 datasets:[{
 label:"Kỹ năng cần thiết",
-data:data.skills
+data:data.skills,
+backgroundColor:data.color,
+borderRadius:8
 }]
 },
 options:{
@@ -274,5 +362,6 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
