@@ -28,16 +28,6 @@ body{
         box-shadow:0 0 25px rgba(0,255,200,0.9);
     }
 }
-
-.input-field{
-    width:100%;
-    padding:10px;
-    border-radius:10px;
-    border:none;
-    margin:8px 0;
-    font-size:16px; /* QUAN TRỌNG cho mobile */
-    box-sizing:border-box;
-}
     
 .result-box{
     backdrop-filter: blur(8px);
@@ -188,7 +178,7 @@ canvas:not(#matrixCanvas){
 
 <input type="text" id="name" placeholder="Nhập tên của bạn"><br>
 
-<input type="date" id="birthdate" class="input-field"><br>
+<input type="date" id="birthdate" onfocus="this.showPicker()"><br>
 
 <label>
   <input type="checkbox" id="advancedMode">
@@ -805,6 +795,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
