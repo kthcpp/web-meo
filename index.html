@@ -28,6 +28,16 @@ body{
         box-shadow:0 0 25px rgba(0,255,200,0.9);
     }
 }
+
+.input-field{
+    width:100%;
+    padding:10px;
+    border-radius:10px;
+    border:none;
+    margin:8px 0;
+    font-size:16px; /* QUAN TRỌNG cho mobile */
+    box-sizing:border-box;
+}
     
 .result-box{
     backdrop-filter: blur(8px);
@@ -155,6 +165,17 @@ canvas:not(#matrixCanvas){
 .glow-text{
   text-shadow:0 0 10px #bb00ff,0 0 20px #bb00ff;
 }
+
+@media (max-width: 600px){
+    .container{
+        width:95%;
+        padding:20px;
+    }
+
+    input, select, button{
+        width:100%;
+    }
+}
     
 </style>
 </head>
@@ -167,7 +188,7 @@ canvas:not(#matrixCanvas){
 
 <input type="text" id="name" placeholder="Nhập tên của bạn"><br>
 
-<input type="date" id="birthdate"><br>
+<input type="date" id="birthdate" class="input-field"><br>
 
 <label>
   <input type="checkbox" id="advancedMode">
@@ -784,6 +805,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
