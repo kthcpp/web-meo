@@ -157,6 +157,11 @@ canvas{
   <p id="story10"></p>
 </div>
 
+<div class="result-box">
+  <h2>⚠️ Vấn đề có thể gặp phải</h2>
+  <p id="vanDe"></p>
+</div>
+
 <h3>Mức độ phù hợp</h3>
 <div class="progress-bar">
 <div class="progress" id="matchBar"></div>
@@ -176,6 +181,62 @@ function rand(min, max){
 function randomFrom(arr){
   return arr[Math.floor(Math.random() * arr.length)];
 }
+
+const vanDeTheoNganh = {
+    dev: [
+        "Deadline dồn dập, sửa bug liên tục.",
+        "Công nghệ thay đổi quá nhanh.",
+        "Áp lực từ khách hàng.",
+        "Ngồi máy tính lâu ảnh hưởng sức khỏe.",
+        "Dự án bị đổi yêu cầu giữa chừng."
+    ],
+    designer: [
+        "Khách yêu cầu sửa thiết kế quá nhiều lần.",
+        "Ý tưởng bị trùng lặp hoặc thiếu sáng tạo.",
+        "Deadline gấp nhưng thiếu brief rõ ràng.",
+        "Bị ép giá hoặc đánh giá thấp công sức.",
+        "Áp lực phải bắt kịp xu hướng mới liên tục."
+    ],
+    teacher: [
+        "Học sinh thiếu tập trung hoặc không hợp tác.",
+        "Áp lực thành tích và thi cử.",
+        "Khối lượng chấm bài và soạn giáo án lớn.",
+        "Phụ huynh gây áp lực ngoài chuyên môn.",
+        "Thu nhập chưa tương xứng công sức."
+    ],
+
+    marketing: [
+        "Thuật toán nền tảng thay đổi liên tục.",
+        "Chi phí quảng cáo tăng cao.",
+        "Khó đo lường chính xác hiệu quả chiến dịch.",
+        "Áp lực KPI và doanh số.",
+        "Nội dung dễ bị bão hòa."
+    ],
+
+    data: [
+        "Dữ liệu bẩn, thiếu hoặc sai cấu trúc.",
+        "Hệ thống xử lý chậm khi dữ liệu lớn.",
+        "Yêu cầu thay đổi pipeline liên tục.",
+        "Khó đồng bộ giữa nhiều nguồn dữ liệu.",
+        "Áp lực đảm bảo bảo mật và chính xác."
+    ],
+
+    game: [
+        "Bug phát sinh ở giai đoạn cuối dự án.",
+        "Tối ưu hiệu năng khó khăn.",
+        "Thiếu ngân sách hoặc nhân lực.",
+        "Game không đạt kỳ vọng người chơi.",
+        "Áp lực phát hành đúng thời điểm."
+    ],
+
+    business: [
+        "Rủi ro tài chính cao.",
+        "Quản lý nhân sự phức tạp.",
+        "Thị trường biến động khó lường.",
+        "Áp lực duy trì lợi nhuận.",
+        "Cạnh tranh khốc liệt."
+    ]
+};
     
 let chartInstance;
 
@@ -375,6 +436,10 @@ if(personality==="adaptive") personalityDesc="Bạn thích nghi nhanh với môi
 let career=document.getElementById("career").value;
 let data=careerData(career);
 
+let vanDeList = vanDeTheoNganh[career];
+let randomVanDe = vanDeList[Math.floor(Math.random() * vanDeList.length)];
+document.getElementById("vanDe").innerText = randomVanDe;
+
 document.getElementById("loading").style.display="none";
 document.getElementById("output").style.display="block";
 let boxes = document.querySelectorAll(".result-box");
@@ -464,74 +529,11 @@ btn.innerText = "🚀 Phân tích tương lai";
 },2500);
 }
 
-const vanDeTheoNganh = {
-    dev: [
-        "Deadline dồn dập, sửa bug liên tục.",
-        "Công nghệ thay đổi quá nhanh.",
-        "Áp lực từ khách hàng.",
-        "Ngồi máy tính lâu ảnh hưởng sức khỏe.",
-        "Dự án bị đổi yêu cầu giữa chừng."
-    ],
-    designer: [
-        "Khách yêu cầu sửa thiết kế quá nhiều lần.",
-        "Ý tưởng bị trùng lặp hoặc thiếu sáng tạo.",
-        "Deadline gấp nhưng thiếu brief rõ ràng.",
-        "Bị ép giá hoặc đánh giá thấp công sức.",
-        "Áp lực phải bắt kịp xu hướng mới liên tục."
-    ],
-    teacher: [
-        "Học sinh thiếu tập trung hoặc không hợp tác.",
-        "Áp lực thành tích và thi cử.",
-        "Khối lượng chấm bài và soạn giáo án lớn.",
-        "Phụ huynh gây áp lực ngoài chuyên môn.",
-        "Thu nhập chưa tương xứng công sức."
-    ],
-
-    marketing: [
-        "Thuật toán nền tảng thay đổi liên tục.",
-        "Chi phí quảng cáo tăng cao.",
-        "Khó đo lường chính xác hiệu quả chiến dịch.",
-        "Áp lực KPI và doanh số.",
-        "Nội dung dễ bị bão hòa."
-    ],
-
-    data: [
-        "Dữ liệu bẩn, thiếu hoặc sai cấu trúc.",
-        "Hệ thống xử lý chậm khi dữ liệu lớn.",
-        "Yêu cầu thay đổi pipeline liên tục.",
-        "Khó đồng bộ giữa nhiều nguồn dữ liệu.",
-        "Áp lực đảm bảo bảo mật và chính xác."
-    ],
-
-    game: [
-        "Bug phát sinh ở giai đoạn cuối dự án.",
-        "Tối ưu hiệu năng khó khăn.",
-        "Thiếu ngân sách hoặc nhân lực.",
-        "Game không đạt kỳ vọng người chơi.",
-        "Áp lực phát hành đúng thời điểm."
-    ],
-
-    business: [
-        "Rủi ro tài chính cao.",
-        "Quản lý nhân sự phức tạp.",
-        "Thị trường biến động khó lường.",
-        "Áp lực duy trì lợi nhuận.",
-        "Cạnh tranh khốc liệt."
-    ]
-};
-
-function hienVanDe() {
-    const nganh = document.getElementById("career").value;
-    const danhSach = vanDeTheoNganh[nganh];
-    const random = Math.floor(Math.random() * danhSach.length);
-    document.getElementById("vanDe").innerText = danhSach[random];
-}
-
-document.getElementById("career").addEventListener("change", hienVanDe);
 </script>
 
 </body>
 </html>
+
 
 
 
