@@ -800,7 +800,7 @@ boxes.forEach((box, index) => {
 
 document.getElementById("story5").innerText=
 name+" - 5 năm sau: "+data.desc5+
-"\n\n<br><span class='income-pink'>Cá tính nổi bật: "+personalityDesc+"</span>"
+"\n\n<br><span class='income-pink'>Cá tính nổi bật: "+personalityDesc+"</span>"+
 "\n<br><span class='income-blue'>Thu nhập: "+data.salary5 + "</span>"; 
 
 document.getElementById("story10").innerHTML =
@@ -856,17 +856,17 @@ if(advancedMode && birthdate){
   let zodiac = getZodiac(dateObj.getDate(), dateObj.getMonth()+1);
   let lifePath = getLifePath(birthdate);
   let element = getElement(dateObj.getFullYear());
-
-  advancedText += `🔮 Cung: ${zodiac}\n${zodiacData[zodiac]}\n\n`;
-  advancedText += `🔢 Thần số học: ${lifePath}\n`;
-  advancedText += `🌿 Ngũ hành: ${element}\n\n`;
+#a54df7
+  advancedText += `🔮 <span style='color:#a54df7'>Cung: ${zodiac}\n${zodiacData[zodiac]}</span>\n\n`;
+  advancedText += `🔢 <span style='color:#a54df7'>Thần số học: ${lifePath}</span>\n`;
+  advancedText += `🌿 <span style='color:#a54df7'>Ngũ hành: ${element}</span>\n\n`;
 
   if(elementCareerBoost[element] && elementCareerBoost[element].includes(career)){
     match += 10;
-    advancedText += "✨ Ngành nghề này tương sinh với ngũ hành của bạn.\n";
+    advancedText += "✨ <span style='color:#f7cd4d'>Ngành nghề này tương sinh với ngũ hành của bạn</span>.\n";
   }else{
     match -= 5;
-    advancedText += "⚠ Ngành này có thể không hoàn toàn tương hợp ngũ hành.\n";
+    advancedText += "⚠ <span style='color:#4d5bf7'>Ngành này có thể không hoàn toàn tương hợp ngũ hành.</span>\n";
   }
 
   if(lifePath === 1 || lifePath === 8){
@@ -938,6 +938,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
