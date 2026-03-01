@@ -12,7 +12,7 @@
 body{
     font-family: Arial, sans-serif;
     text-align: center;
-    background: linear-gradient(135deg,#0ee94c,#0aa83a,#064f1f);
+    background: linear-gradient(135deg,#329623,#197d35,#064f1f);
     animation: bgPulse 4s ease-in-out infinite alternate;
     margin:0;
     position:relative;
@@ -72,7 +72,6 @@ animation: slideInRight 0.9s cubic-bezier(.22,1,.36,1) forwards;
     text-align:left;
     transition:0.4s;
     border: 1px solid rgba(0, 255, 200, 0.3);
-    box-shadow: 0 0 20px rgba(0,255,200,0.15);
 }
 
 .advanced-theme .result-box{
@@ -800,8 +799,8 @@ boxes.forEach((box, index) => {
 
 document.getElementById("story5").innerHTML=
 name+" - 5 năm sau: "+data.desc5+
-"\n\n<br><span class='income-pink'>Cá tính nổi bật: "+personalityDesc+"</span>"+
-"\n<br><br><span class='income-blue'>Thu nhập: "+data.salary5 + "</span>"; 
+"\n\n<br><span class='income-pink'>Cá tính nổi bật: </span>"+ <span class='income-blue'>personalityDesc+
+"\n<br><br>Thu nhập: " + data.salary5 </span>; 
 
 document.getElementById("story10").innerHTML =
 name + " - 10 năm sau: " + data.desc10 +
@@ -938,6 +937,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
