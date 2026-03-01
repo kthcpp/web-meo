@@ -1,145 +1,220 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
+<head> 
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/29/29302.png">
 <meta charset="UTF-8">
 <title>LifeSim AI Pro+</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
+    
+</script>
 <style>
-body{
-  font-family:Arial;
-  text-align:center;
-  background:#111;
-  color:white;
-  transition:0.5s;
+    
+.glow{
+    animation:glowEffect 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glowEffect{
+    from{
+        box-shadow:0 0 10px rgba(0,255,200,0.3);
+    }
+    to{
+        box-shadow:0 0 25px rgba(0,255,200,0.9);
+    }
+}
+    
+.result-box{
+    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.08);
+    padding:18px;
+    border-radius:12px;
+    margin:15px 0;
+    text-align:left;
+    transition:0.4s;
+    border:1px solid rgba(255,255,255,0.15);
+}
+
+.result-box:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.4);
+}
+
+.result-box h2{
+    margin-top:0;
+    color:#00ffcc;
+}
+.container{
+    background: rgba(255,255,255,0.08);
+    padding:25px;
+    border-radius:15px;
+    width:850px;
+    margin:auto;
+}
+input, select, button{
+    padding:10px;
+    margin:8px;
+    border-radius:8px;
+    border:none;
+}
+button{
+    background:#00c9a7;
+    color:white;
+    cursor:pointer;
+}
+.result{
+    margin-top:20px;
+    background:rgba(0,0,0,0.4);
+    padding:20px;
+    border-radius:10px;
+    display:none;
+}
+.progress-bar{
+    width:100%;
+    background:#444;
+    border-radius:20px;
+    overflow:hidden;
+}
+.progress{
+    height:20px;
+    background:#00ffcc;
+    width:0%;
+    transition:0.6s;
+}
+.loading{
+    display:none;
+    font-size:20px;
+    margin-top:15px;
+}
+.spinner{
+    border:4px solid #ccc;
+    border-top:4px solid #00ffcc;
+    border-radius:50%;
+    width:25px;
+    height:25px;
+    animation:spin 1s linear infinite;
+    display:inline-block;
+}
+@keyframes spin{
+    100%{transform:rotate(360deg);}
+}
+
+canvas:not(#matrixCanvas){
+    background:white;
+    border-radius:10px;
+    margin-top:20px;
 }
 
 #matrixCanvas{
-  position:fixed;
+  position: fixed;
   top:0;
   left:0;
   width:100%;
   height:100%;
   z-index:-1;
   display:none;
-  background:linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  background:black;
+}
+    
+.result-box ul{
+  padding-left: 20px;
+  text-align: left;
 }
 
-.container{
-  background:rgba(255,255,255,0.08);
-  padding:25px;
-  border-radius:15px;
-  width:850px;
-  margin:auto;
+.result-box li{
+  margin-bottom: 8px;
+  animation: fadeInUp 0.6s ease forwards;
 }
 
-input,select,button{
-  padding:10px;
-  margin:8px;
-  border-radius:8px;
-  border:none;
+@keyframes fadeInUp{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
-button{
-  background:#00c9a7;
-  color:white;
-  cursor:pointer;
-}
-
-.result{
-  margin-top:20px;
-  background:rgba(0,0,0,0.4);
-  padding:20px;
-  border-radius:10px;
-  display:none;
-}
-
-.result-box{
-  background:rgba(255,255,255,0.08);
-  padding:18px;
-  border-radius:12px;
-  margin:15px 0;
-  text-align:left;
-}
-
-.progress-bar{
-  width:100%;
-  background:#444;
-  border-radius:20px;
-  overflow:hidden;
-}
-
-.progress{
-  height:20px;
-  background:#bb00ff;
-  width:0%;
-  transition:0.6s;
-}
-
+/* 🔮 Advanced Mode Theme */
 .advanced-theme{
-  background:linear-gradient(135deg,#1a0033,#330066,#4b0082);
+  background: linear-gradient(135deg,#1a0033,#330066,#4b0082);
 }
+
+.advanced-box{
+  box-shadow: 0 0 20px #bb00ff;
+  border:1px solid #bb00ff;
+}
+
+.glow-text{
+  text-shadow:0 0 10px #bb00ff,0 0 20px #bb00ff;
+}
+    
 </style>
 </head>
 <body>
 
 <canvas id="matrixCanvas"></canvas>
-
 <h1>📖 LifeSim AI - PRO+</h1>
 
 <div class="container">
 
-<input type="text" id="name" placeholder="Nhập tên"><br>
+<input type="text" id="name" placeholder="Nhập tên của bạn"><br>
+
 <input type="date" id="birthdate"><br>
 
 <label>
-<input type="checkbox" id="advancedMode">
-🔮 Bật phân tích nâng cao
-</label><br>
+  <input type="checkbox" id="advancedMode">
+  🔮 Bật phân tích nâng cao
+</label>
+<br>
 
 <select id="personality">
-<option value="logic">Logic</option>
+<option value="logic">Tư duy logic</option>
 <option value="creative">Sáng tạo</option>
 <option value="social">Hướng ngoại</option>
 <option value="leader">Lãnh đạo</option>
-<option value="analyst">Phân tích</option>
+<option value="analyst">Phân tích dữ liệu</option>
 <option value="independent">Độc lập</option>
 <option value="adaptive">Thích nghi nhanh</option>
 </select>
 
 <select id="career">
 <option value="dev">Lập trình viên</option>
-<option value="designer">Thiết kế</option>
-<option value="data">Kỹ sư dữ liệu</option>
-<option value="marketing">Tiếp thị kỹ thuật số</option>
+<option value="designer">Thiết kế đồ họa</option>
 <option value="teacher">Giáo viên</option>
-<option value="game">Game Dev</option>
+<option value="marketing">Tiếp thị kỹ thuật số</option>
+<option value="data">Kỹ sư dữ liệu</option>
+<option value="game">Nhà làm game</option>
 <option value="business">Doanh nhân</option>
 </select>
 
 <br>
-<button onclick="simulate()">Phân tích</button>
+<button onclick="simulate()">Phân tích bằng AI</button>
+
+<div class="loading" id="loading">
+<span class="spinner"></span> AI đang phân tích tương lai của bạn...
+</div>
 
 <div class="result" id="output">
-
+    
 <div class="result-box">
-<h2>🚀 5 năm</h2>
-<p id="story5"></p>
+  <h2>🚀 Kết quả 5 năm</h2>
+  <p id="story5"></p>
 </div>
 
 <div class="result-box">
-<h2>🌟 10 năm</h2>
-<p id="story10"></p>
+  <h2>🌟 Kết quả 10 năm</h2>
+  <p id="story10"></p>
 </div>
 
 <div class="result-box">
-<h2>⚠️ Vấn đề có thể gặp</h2>
-<p id="vanDe"></p>
+  <h2>⚠️ Vấn đề có thể gặp phải</h2>
+  <p id="vanDe"></p>
 </div>
 
 <div class="result-box">
-<h2>🔮 Phân tích nâng cao</h2>
-<p id="advancedResult"></p>
+  <h2>🔮 Phân tích nâng cao</h2>
+  <p id="advancedResult"></p>
 </div>
 
 <h3>Mức độ phù hợp</h3>
@@ -148,160 +223,568 @@ button{
 </div>
 
 <canvas id="skillChart"></canvas>
-
 </div>
+
 </div>
 
 <script>
 
-/* ===== RANDOM UTILS ===== */
-
-function rand(min,max){
-  return Math.floor(Math.random()*(max-min+1))+min;
+function randomMultiple(arr, min = 2, max = 3){
+  let count = Math.floor(Math.random() * (max - min + 1)) + min;
+  let shuffled = [...arr].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
+    
+function rand(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function randomFrom(arr){
-  return arr[Math.floor(Math.random()*arr.length)];
+  return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function randomMultiple(arr,count){
-  let shuffled=[...arr].sort(()=>0.5-Math.random());
-  return shuffled.slice(0,count);
+// ===== 🔮 CUNG HOÀNG ĐẠO + MÔ TẢ =====
+const zodiacData = {
+  "Bạch Dương": "Năng động, tiên phong, hợp môi trường cạnh tranh.",
+  "Kim Ngưu": "Kiên định, thực tế, phù hợp công việc ổn định.",
+  "Song Tử": "Giao tiếp tốt, linh hoạt, hợp marketing & truyền thông.",
+  "Cự Giải": "Cảm xúc sâu sắc, hợp giáo dục & chăm sóc.",
+  "Sư Tử": "Lãnh đạo, nổi bật, hợp kinh doanh & sáng tạo.",
+  "Xử Nữ": "Phân tích tốt, hợp data & kỹ thuật.",
+  "Thiên Bình": "Cân bằng, thẩm mỹ cao, hợp thiết kế.",
+  "Bọ Cạp": "Chiến lược, sâu sắc, hợp công nghệ & nghiên cứu.",
+  "Nhân Mã": "Tự do, khám phá, hợp startup & sáng tạo.",
+  "Ma Kết": "Kỷ luật, bền bỉ, hợp quản lý & kỹ thuật.",
+  "Bảo Bình": "Đổi mới, sáng tạo, hợp công nghệ tương lai.",
+  "Song Ngư": "Trực giác mạnh, hợp nghệ thuật & giáo dục."
+};
+
+function getZodiac(day, month){
+  const signs = [
+    {name:"Ma Kết", from:[22,12], to:[19,1]},
+    {name:"Bảo Bình", from:[20,1], to:[18,2]},
+    {name:"Song Ngư", from:[19,2], to:[20,3]},
+    {name:"Bạch Dương", from:[21,3], to:[19,4]},
+    {name:"Kim Ngưu", from:[20,4], to:[20,5]},
+    {name:"Song Tử", from:[21,5], to:[20,6]},
+    {name:"Cự Giải", from:[21,6], to:[22,7]},
+    {name:"Sư Tử", from:[23,7], to:[22,8]},
+    {name:"Xử Nữ", from:[23,8], to:[22,9]},
+    {name:"Thiên Bình", from:[23,9], to:[22,10]},
+    {name:"Bọ Cạp", from:[23,10], to:[21,11]},
+    {name:"Nhân Mã", from:[22,11], to:[21,12]}
+  ];
+
+  for(let s of signs){
+    if(
+      (month===s.from[1] && day>=s.from[0]) ||
+      (month===s.to[1] && day<=s.to[0])
+    ){
+      return s.name;
+    }
+  }
 }
 
-/* ===== MATRIX ===== */
+// ===== 🔢 THẦN SỐ HỌC =====
+function getLifePath(dateString){
+  let nums = dateString.replaceAll("-","").split("").map(Number);
+  let sum = nums.reduce((a,b)=>a+b,0);
+  while(sum > 9){
+    sum = sum.toString().split("").map(Number).reduce((a,b)=>a+b,0);
+  }
+  return sum;
+}
 
-let matrixAnimationId;
+// ===== 🌿 NGŨ HÀNH =====
+function getElement(year){
+  const elements = ["Kim","Thủy","Mộc","Hỏa","Thổ"];
+  return elements[year % 5];
+}
+
+// ===== 🌟 HỢP NGÀNH THEO NGŨ HÀNH =====
+const elementCareerBoost = {
+  "Hỏa":["marketing","game","business"],
+  "Thủy":["data","teacher"],
+  "Mộc":["designer"],
+  "Kim":["dev","data"],
+  "Thổ":["teacher","business"]
+};
+
+const vanDeTheoNganh = {
+    dev: [
+        "Deadline dồn dập, sửa bug liên tục.",
+        "Công nghệ thay đổi quá nhanh.",
+        "Áp lực từ khách hàng.",
+        "Ngồi máy tính lâu ảnh hưởng sức khỏe.",
+        "Dự án bị đổi yêu cầu giữa chừng."
+    ],
+    designer: [
+        "Khách yêu cầu sửa thiết kế quá nhiều lần.",
+        "Ý tưởng bị trùng lặp hoặc thiếu sáng tạo.",
+        "Deadline gấp nhưng thiếu brief rõ ràng.",
+        "Bị ép giá hoặc đánh giá thấp công sức.",
+        "Áp lực phải bắt kịp xu hướng mới liên tục."
+    ],
+    teacher: [
+        "Học sinh thiếu tập trung hoặc không hợp tác.",
+        "Áp lực thành tích và thi cử.",
+        "Khối lượng chấm bài và soạn giáo án lớn.",
+        "Phụ huynh gây áp lực ngoài chuyên môn.",
+        "Thu nhập chưa tương xứng công sức."
+    ],
+
+    marketing: [
+        "Thuật toán nền tảng thay đổi liên tục.",
+        "Chi phí quảng cáo tăng cao.",
+        "Khó đo lường chính xác hiệu quả chiến dịch.",
+        "Áp lực KPI và doanh số.",
+        "Nội dung dễ bị bão hòa."
+    ],
+
+    data: [
+        "Dữ liệu bẩn, thiếu hoặc sai cấu trúc.",
+        "Hệ thống xử lý chậm khi dữ liệu lớn.",
+        "Yêu cầu thay đổi pipeline liên tục.",
+        "Khó đồng bộ giữa nhiều nguồn dữ liệu.",
+        "Áp lực đảm bảo bảo mật và chính xác."
+    ],
+
+    game: [
+        "Bug phát sinh ở giai đoạn cuối dự án.",
+        "Tối ưu hiệu năng khó khăn.",
+        "Thiếu ngân sách hoặc nhân lực.",
+        "Game không đạt kỳ vọng người chơi.",
+        "Áp lực phát hành đúng thời điểm."
+    ],
+
+    business: [
+        "Rủi ro tài chính cao.",
+        "Quản lý nhân sự phức tạp.",
+        "Thị trường biến động khó lường.",
+        "Áp lực duy trì lợi nhuận.",
+        "Cạnh tranh khốc liệt."
+    ]
+};
+    
+let chartInstance;
+
+function careerData(career){
+if(career==="dev"){
+let salary5 = rand(22,30);
+let salary10 = rand(45,65);
+
+return {
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[
+  rand(85,95),
+  rand(55,70),
+  rand(45,65)
+],
+color:"#00ffcc",
+desc5: randomFrom([
+  "Bạn làm việc tại công ty công nghệ lớn.",
+  "Bạn tham gia nhiều dự án phần mềm thực tế.",
+  "Bạn phát triển hệ thống backend quy mô lớn."
+]),
+desc10: randomFrom([
+  "Bạn trở thành senior developer.",
+  "Bạn dẫn dắt một team kỹ thuật.",
+  "Bạn có thể làm việc quốc tế với mức lương cao."
+])
+}
+}
+if(career==="designer"){
+let salary5 = rand(18,25);
+let salary10 = rand(35,50);
+
+return {
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(45,65), rand(85,98), rand(60,80)],
+color:"#ff66cc",
+desc5: randomFrom([
+  "Bạn làm việc sáng tạo với thương hiệu lớn.",
+  "Bạn tham gia thiết kế UI/UX cho ứng dụng.",
+  "Bạn xây dựng hình ảnh cho nhiều chiến dịch.",
+  "Bạn làm freelancer với nhiều khách hàng quốc tế."
+]),
+desc10: randomFrom([
+  "Bạn mở studio thiết kế riêng.",
+  "Bạn trở thành Creative Director.",
+  "Bạn xây dựng thương hiệu cá nhân mạnh.",
+  "Bạn hợp tác với nhiều công ty toàn cầu."
+])
+}
+}
+if(career==="teacher"){
+let salary5 = rand(14,20);
+let salary10 = rand(25,40);
+
+return {
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(55,70), rand(65,80), rand(85,98)],
+color:"#ffd166",
+desc5: randomFrom([
+  "Bạn giảng dạy và truyền cảm hứng cho học sinh.",
+  "Bạn đổi mới phương pháp giảng dạy.",
+  "Bạn tổ chức nhiều hoạt động giáo dục sáng tạo.",
+  "Bạn được học sinh yêu quý và tin tưởng."
+]),
+desc10: randomFrom([
+  "Bạn trở thành chuyên gia giáo dục.",
+  "Bạn quản lý một trung tâm đào tạo.",
+  "Bạn viết sách hoặc xây dựng khóa học riêng.",
+  "Bạn trở thành hiệu trưởng hoặc cố vấn học thuật."
+])
+}
+}
+if(career==="marketing"){
+let salary5 = rand(20,28);
+let salary10 = rand(40,60);
+
+return {
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(55,70), rand(80,95), rand(80,95)],
+color:"#ff914d",
+desc5: randomFrom([
+  "Bạn xây dựng chiến dịch marketing online.",
+  "Bạn quản lý quảng cáo và thương hiệu số.",
+  "Bạn tối ưu chuyển đổi cho doanh nghiệp.",
+  "Bạn phát triển cộng đồng trên mạng xã hội."
+]),
+desc10: randomFrom([
+  "Bạn trở thành Marketing Manager.",
+  "Bạn điều hành chiến lược thương hiệu lớn.",
+  "Bạn xây dựng agency riêng.",
+  "Bạn làm chuyên gia tư vấn quốc tế."
+])
+}
+}
+
+if(career==="data"){
+let salary5 = rand(28,40);
+let salary10 = rand(55,80);
+
+return {
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(90,98), rand(45,60), rand(50,65)],
+color:"#4dabf7",
+desc5: randomFrom([
+  "Bạn phân tích dữ liệu doanh nghiệp.",
+  "Bạn xây dựng mô hình AI dự đoán.",
+  "Bạn xử lý Big Data quy mô lớn.",
+  "Bạn tối ưu hệ thống bằng Machine Learning."
+]),
+desc10: randomFrom([
+  "Bạn trở thành Data Scientist cấp cao.",
+  "Bạn làm AI Engineer chuyên sâu.",
+  "Bạn quản lý đội phân tích dữ liệu.",
+  "Bạn tham gia dự án công nghệ quốc tế."
+])
+}
+}
+
+if(career==="game"){
+let salary5 = rand(25,35);
+let salary10 = rand(50,75);
+
+return {
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(80,95), rand(70,90), rand(55,75)],
+color:"#9d4edd",
+desc5: randomFrom([
+  "Bạn phát triển game indie sáng tạo.",
+  "Bạn làm việc trong studio game lớn.",
+  "Bạn xây dựng thế giới ảo hấp dẫn.",
+  "Bạn phát triển gameplay độc đáo."
+]),
+desc10: randomFrom([
+  "Bạn mở studio game riêng.",
+  "Bạn phát hành game đạt triệu lượt tải.",
+  "Bạn hợp tác với nhà phát hành quốc tế.",
+  "Bạn trở thành Game Director."
+])
+}
+}
+
+if(career==="business"){
+let salary5 = rand(30,45);
+let salary10 = rand(70,150);
+
+return {
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(65,80), rand(65,85), rand(90,100)],
+color:"#38b000",
+desc5: randomFrom([
+  "Bạn khởi nghiệp với dự án riêng.",
+  "Bạn xây dựng đội ngũ kinh doanh mạnh.",
+  "Bạn phát triển thương hiệu cá nhân.",
+  "Bạn mở rộng thị trường nhanh chóng."
+]),
+desc10: randomFrom([
+  "Bạn trở thành doanh nhân thành công.",
+  "Bạn sở hữu nhiều chi nhánh kinh doanh.",
+  "Bạn đầu tư vào nhiều lĩnh vực khác nhau.",
+  "Bạn xây dựng hệ sinh thái doanh nghiệp."
+])
+}
+}
+    
+}
+
+    let matrixInterval;
 
 function startMatrix(){
-  const canvas=document.getElementById("matrixCanvas");
-  const ctx=canvas.getContext("2d");
+  const canvas = document.getElementById("matrixCanvas");
+  const ctx = canvas.getContext("2d");
 
-  canvas.style.display="block";
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
+  canvas.style.display = "block";
 
-  const letters="01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const fontSize=16;
-  const columns=canvas.width/fontSize;
-  const drops=Array(Math.floor(columns)).fill(1);
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+
+  const drops = [];
+  for(let i = 0; i < columns; i++){
+    drops[i] = 1;
+  }
 
   function draw(){
-    ctx.fillStyle="rgba(0,0,0,0.05)";
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    ctx.fillStyle="#c84dff";
-    ctx.font=fontSize+"px monospace";
+    ctx.fillStyle = "#d580ff";
+    ctx.shadowColor = "#bb00ff";
+    ctx.shadowBlur = 10;
+    ctx.font = fontSize + "px monospace";
 
-    for(let i=0;i<drops.length;i++){
-      const text=letters[Math.floor(Math.random()*letters.length)];
-      ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-      if(drops[i]*fontSize>canvas.height&&Math.random()>0.975){
-        drops[i]=0;
+    for(let i = 0; i < drops.length; i++){
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+
+      if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){
+        drops[i] = 0;
       }
+
       drops[i]++;
     }
   }
 
   function animate(){
-    draw();
-    matrixAnimationId=requestAnimationFrame(animate);
+  draw();
+  requestAnimationFrame(animate);
   }
-
   animate();
 }
 
 function stopMatrix(){
-  document.getElementById("matrixCanvas").style.display="none";
-  cancelAnimationFrame(matrixAnimationId);
+  const canvas = document.getElementById("matrixCanvas");
+  canvas.style.display = "none";
+  clearInterval(matrixInterval);
 }
-
-/* ===== DATA ===== */
-
-const vanDeTheoNganh={
-dev:["Deadline dồn dập.","Sửa bug liên tục.","Công nghệ đổi nhanh.","Áp lực khách hàng.","Ngồi lâu hại sức khỏe."],
-designer:["Sửa thiết kế nhiều lần.","Ý tưởng bí.","Deadline gấp.","Bị ép giá.","Chạy theo xu hướng."],
-teacher:["Áp lực thi cử.","Chấm bài nhiều.","Phụ huynh gây áp lực.","Thu nhập chưa cao.","Học sinh thiếu tập trung."],
-marketing:["Thuật toán thay đổi.","Chi phí quảng cáo cao.","Áp lực KPI.","Nội dung bão hòa.","Cạnh tranh mạnh."],
-data:["Dữ liệu bẩn.","Xử lý chậm.","Pipeline đổi liên tục.","Đồng bộ khó.","Áp lực bảo mật."],
-game:["Bug cuối dự án.","Tối ưu khó.","Thiếu ngân sách.","Game flop.","Áp lực phát hành."],
-business:["Rủi ro tài chính.","Quản lý khó.","Thị trường biến động.","Áp lực lợi nhuận.","Cạnh tranh cao."]
-};
-
-function careerData(career){
-
-const dataMap={
-dev:{salary5:rand(22,30),salary10:rand(45,65),skills:[rand(85,95),rand(55,70),rand(45,65)],color:"#00ffcc"},
-designer:{salary5:rand(18,25),salary10:rand(35,50),skills:[rand(45,65),rand(85,98),rand(60,80)],color:"#ff66cc"},
-teacher:{salary5:rand(14,20),salary10:rand(25,40),skills:[rand(55,70),rand(65,80),rand(85,98)],color:"#ffd166"},
-marketing:{salary5:rand(20,28),salary10:rand(40,60),skills:[rand(55,70),rand(80,95),rand(80,95)],color:"#ff914d"},
-data:{salary5:rand(28,40),salary10:rand(55,80),skills:[rand(90,98),rand(45,60),rand(50,65)],color:"#4dabf7"},
-game:{salary5:rand(25,35),salary10:rand(50,75),skills:[rand(80,95),rand(70,90),rand(55,75)],color:"#9d4edd"},
-business:{salary5:rand(30,45),salary10:rand(70,150),skills:[rand(65,80),rand(65,85),rand(90,100)],color:"#38b000"}
-};
-
-return dataMap[career];
-}
-
-/* ===== SIMULATE ===== */
-
-let chartInstance;
-
+    
 function simulate(){
+    
+let btn = document.querySelector("button");
+btn.disabled = true;
+btn.innerText = "🤖 AI đang phân tích...";
 
-let name=document.getElementById("name").value||"Bạn";
+document.getElementById("loading").style.display="block";
+document.getElementById("output").style.display="none";
+
+setTimeout(function(){
+
+let name=document.getElementById("name").value;
+let personality=document.getElementById("personality").value;
+let personalityDesc = "";
+
+if(personality==="logic") personalityDesc="Bạn có tư duy hệ thống và giải quyết vấn đề tốt.";
+if(personality==="creative") personalityDesc="Bạn có khả năng sáng tạo và đổi mới cao.";
+if(personality==="social") personalityDesc="Bạn giỏi giao tiếp và kết nối con người.";
+if(personality==="leader") personalityDesc="Bạn có tố chất dẫn dắt và truyền cảm hứng.";
+if(personality==="analyst") personalityDesc="Bạn phân tích dữ liệu và ra quyết định logic.";
+if(personality==="independent") personalityDesc="Bạn làm việc độc lập và tự chủ tốt.";
+if(personality==="adaptive") personalityDesc="Bạn thích nghi nhanh với môi trường mới.";
+    
 let career=document.getElementById("career").value;
-let advanced=document.getElementById("advancedMode").checked;
-
 let data=careerData(career);
 
-let vanDeHTML="<ul>";
-randomMultiple(vanDeTheoNganh[career],3)
-.forEach(v=>vanDeHTML+="<li>"+v+"</li>");
-vanDeHTML+="</ul>";
+let vanDeList = vanDeTheoNganh[career];
+let randomVanDeArr = randomMultiple(vanDeList, 2, 3);
 
-document.getElementById("vanDe").innerHTML=vanDeHTML;
+let vanDeHTML = "<ul>";
+randomVanDeArr.forEach(v => {
+  vanDeHTML += "<li>⚠ " + v + "</li>";
+});
+vanDeHTML += "</ul>";
 
-let match=rand(70,95);
-if(advanced){startMatrix();match+=5;}
-else stopMatrix();
-if(match>100)match=100;
+document.getElementById("vanDe").innerHTML = vanDeHTML;
 
+document.getElementById("loading").style.display="none";
 document.getElementById("output").style.display="block";
+let boxes = document.querySelectorAll(".result-box");
+boxes.forEach(box=>{
+  box.classList.remove("glow");
+  void box.offsetWidth;
+  box.classList.add("glow");
+});
 
 document.getElementById("story5").innerText=
-`${name} - 5 năm: Thu nhập khoảng ${data.salary5} triệu/tháng`;
+name+" - 5 năm sau: "+data.desc5+
+"\n\nCá tính nổi bật: "+personalityDesc+
+"\nThu nhập: "+data.salary5;
 
 document.getElementById("story10").innerText=
-`${name} - 10 năm: Thu nhập khoảng ${data.salary10} triệu/tháng`;
+name+" - 10 năm sau: "+data.desc10+" Thu nhập: "+data.salary10;
 
-document.getElementById("advancedResult").innerText=
-advanced?"Phân tích chuyên sâu đã kích hoạt.":"";
+let match=65;
 
-let bar=document.getElementById("matchBar");
-bar.style.width="0%";
-setTimeout(()=>{bar.style.width=match+"%";},200);
+// dev
+if(personality==="logic" && career==="dev") match=92;
+if(personality==="analyst" && career==="dev") match=88;
+if(personality==="independent" && career==="dev") match=85;
 
-if(chartInstance)chartInstance.destroy();
+// designer
+if(personality==="creative" && career==="designer") match=92;
+if(personality==="adaptive" && career==="designer") match=85;
 
-chartInstance=new Chart(document.getElementById("skillChart"),{
+// teacher
+if(personality==="social" && career==="teacher") match=92;
+if(personality==="leader" && career==="teacher") match=88;
+if(personality==="adaptive" && career==="teacher") match=85;
+
+// marketing
+if(personality==="social" && career==="marketing") match=92;
+if(personality==="creative" && career==="marketing") match=88;
+
+// data
+if(personality==="analyst" && career==="data") match=95;
+if(personality==="logic" && career==="data") match=90;
+
+// game
+if(personality==="creative" && career==="game") match=92;
+if(personality==="logic" && career==="game") match=85;
+
+// business
+if(personality==="leader" && career==="business") match=95;
+if(personality==="adaptive" && career==="business") match=88;
+
+let bar = document.getElementById("matchBar");
+bar.style.width = "0%";
+
+// 🔮 ===== PHÂN TÍCH HUYỀN HỌC PRO MAX =====
+let advancedMode = document.getElementById("advancedMode").checked;
+let birthdate = document.getElementById("birthdate").value;
+let advancedText = "";
+
+if(advancedMode && birthdate){
+  startMatrix();
+
+  document.body.classList.add("advanced-theme");
+
+  let dateObj = new Date(birthdate);
+  let zodiac = getZodiac(dateObj.getDate(), dateObj.getMonth()+1);
+  let lifePath = getLifePath(birthdate);
+  let element = getElement(dateObj.getFullYear());
+
+  advancedText += `🔮 Cung: ${zodiac}\n${zodiacData[zodiac]}\n\n`;
+  advancedText += `🔢 Thần số học: ${lifePath}\n`;
+  advancedText += `🌿 Ngũ hành: ${element}\n\n`;
+
+  if(elementCareerBoost[element] && elementCareerBoost[element].includes(career)){
+    match += 10;
+    advancedText += "✨ Ngành nghề này tương sinh với ngũ hành của bạn.\n";
+  }else{
+    match -= 5;
+    advancedText += "⚠ Ngành này có thể không hoàn toàn tương hợp ngũ hành.\n";
+  }
+
+  if(lifePath === 1 || lifePath === 8){
+    match += 5;
+  }
+
+  if(match > 100) match = 100;
+  if(match < 40) match = 40;
+
+  bar.style.width = match + "%";
+
+}else{
+    stopMatrix();
+  document.body.classList.remove("advanced-theme");
+}
+
+bar.style.width = "0%";
+
+setTimeout(()=>{
+  bar.style.width = match + "%";
+},200);
+
+document.getElementById("advancedResult").innerText = advancedText;
+
+let advancedBox = document
+  .getElementById("advancedResult")
+  .parentElement;
+
+if(advancedMode && birthdate){
+  advancedBox.classList.add("advanced-box");
+}else{
+  advancedBox.classList.remove("advanced-box");
+}
+
+if(chartInstance) chartInstance.destroy();
+
+chartInstance = new Chart(document.getElementById("skillChart"),{
 type:'bar',
 data:{
 labels:["Logic","Sáng tạo","Giao tiếp"],
 datasets:[{
-label:"Kỹ năng",
+label:"Kỹ năng cần thiết",
 data:data.skills,
 backgroundColor:data.color,
 borderRadius:8
 }]
 },
 options:{
-responsive:true,
-scales:{y:{beginAtZero:true,max:100}}
+  responsive:true,
+  animation:{
+    duration:1500,
+    easing:'easeOutQuart'
+  },
+  scales:{
+    y:{
+      beginAtZero:true,
+      max:100
+    }
+  }
 }
 });
+    btn.disabled = false;
+btn.innerText = "🚀 Phân tích tương lai";
+
+},2500);
 }
+
 </script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
