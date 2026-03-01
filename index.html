@@ -4,7 +4,9 @@
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/29/29302.png">
 <meta charset="UTF-8">
 <title>LifeSim AI Pro+</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
+    
+</script>
 <style>
 body{
     font-family: Arial;
@@ -166,82 +168,185 @@ canvas{
 </div>
 
 <script>
+    
+function rand(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function randomFrom(arr){
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+    
 let chartInstance;
 
 function careerData(career){
 if(career==="dev"){
+let salary5 = rand(22,30);
+let salary10 = rand(45,65);
+
 return {
-salary5:"25 triệu/tháng",
-salary10:"50 triệu/tháng",
-skills:[90,60,50],
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[
+  rand(85,95),
+  rand(55,70),
+  rand(45,65)
+],
 color:"#00ffcc",
-desc5:"Bạn làm việc tại công ty công nghệ, tham gia nhiều dự án phần mềm.",
-desc10:"Bạn trở thành senior developer hoặc leader team."
+desc5: randomFrom([
+  "Bạn làm việc tại công ty công nghệ lớn.",
+  "Bạn tham gia nhiều dự án phần mềm thực tế.",
+  "Bạn phát triển hệ thống backend quy mô lớn."
+]),
+desc10: randomFrom([
+  "Bạn trở thành senior developer.",
+  "Bạn dẫn dắt một team kỹ thuật.",
+  "Bạn có thể làm việc quốc tế với mức lương cao."
+])
 }
 }
 if(career==="designer"){
+let salary5 = rand(18,25);
+let salary10 = rand(35,50);
+
 return {
-salary5:"20 triệu/tháng",
-salary10:"40 triệu/tháng",
-skills:[50,95,70],
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(45,65), rand(85,98), rand(60,80)],
 color:"#ff66cc",
-desc5:"Bạn làm việc sáng tạo với thương hiệu và sản phẩm.",
-desc10:"Bạn có thể mở studio riêng hoặc làm freelance quốc tế."
+desc5: randomFrom([
+  "Bạn làm việc sáng tạo với thương hiệu lớn.",
+  "Bạn tham gia thiết kế UI/UX cho ứng dụng.",
+  "Bạn xây dựng hình ảnh cho nhiều chiến dịch.",
+  "Bạn làm freelancer với nhiều khách hàng quốc tế."
+]),
+desc10: randomFrom([
+  "Bạn mở studio thiết kế riêng.",
+  "Bạn trở thành Creative Director.",
+  "Bạn xây dựng thương hiệu cá nhân mạnh.",
+  "Bạn hợp tác với nhiều công ty toàn cầu."
+])
 }
 }
 if(career==="teacher"){
+let salary5 = rand(14,20);
+let salary10 = rand(25,40);
+
 return {
-salary5:"15 triệu/tháng",
-salary10:"30 triệu/tháng",
-skills:[60,70,95],
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(55,70), rand(65,80), rand(85,98)],
 color:"#ffd166",
-desc5:"Bạn giảng dạy và truyền cảm hứng cho học sinh.",
-desc10:"Bạn có thể trở thành chuyên gia giáo dục hoặc quản lý."
+desc5: randomFrom([
+  "Bạn giảng dạy và truyền cảm hứng cho học sinh.",
+  "Bạn đổi mới phương pháp giảng dạy.",
+  "Bạn tổ chức nhiều hoạt động giáo dục sáng tạo.",
+  "Bạn được học sinh yêu quý và tin tưởng."
+]),
+desc10: randomFrom([
+  "Bạn trở thành chuyên gia giáo dục.",
+  "Bạn quản lý một trung tâm đào tạo.",
+  "Bạn viết sách hoặc xây dựng khóa học riêng.",
+  "Bạn trở thành hiệu trưởng hoặc cố vấn học thuật."
+])
 }
 }
 if(career==="marketing"){
+let salary5 = rand(20,28);
+let salary10 = rand(40,60);
+
 return {
-salary5:"22 triệu/tháng",
-salary10:"45 triệu/tháng",
-skills:[60,85,90],
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(55,70), rand(80,95), rand(80,95)],
 color:"#ff914d",
-desc5:"Bạn làm việc trong lĩnh vực marketing số, xây dựng thương hiệu online.",
-desc10:"Bạn trở thành chuyên gia marketing hoặc quản lý chiến lược thương hiệu."
+desc5: randomFrom([
+  "Bạn xây dựng chiến dịch marketing online.",
+  "Bạn quản lý quảng cáo và thương hiệu số.",
+  "Bạn tối ưu chuyển đổi cho doanh nghiệp.",
+  "Bạn phát triển cộng đồng trên mạng xã hội."
+]),
+desc10: randomFrom([
+  "Bạn trở thành Marketing Manager.",
+  "Bạn điều hành chiến lược thương hiệu lớn.",
+  "Bạn xây dựng agency riêng.",
+  "Bạn làm chuyên gia tư vấn quốc tế."
+])
 }
 }
 
 if(career==="data"){
+let salary5 = rand(28,40);
+let salary10 = rand(55,80);
+
 return {
-salary5:"30 triệu/tháng",
-salary10:"60 triệu/tháng",
-skills:[95,50,55],
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(90,98), rand(45,60), rand(50,65)],
 color:"#4dabf7",
-desc5:"Bạn phân tích dữ liệu lớn và tối ưu hệ thống doanh nghiệp.",
-desc10:"Bạn trở thành Data Scientist cấp cao hoặc AI Specialist."
+desc5: randomFrom([
+  "Bạn phân tích dữ liệu doanh nghiệp.",
+  "Bạn xây dựng mô hình AI dự đoán.",
+  "Bạn xử lý Big Data quy mô lớn.",
+  "Bạn tối ưu hệ thống bằng Machine Learning."
+]),
+desc10: randomFrom([
+  "Bạn trở thành Data Scientist cấp cao.",
+  "Bạn làm AI Engineer chuyên sâu.",
+  "Bạn quản lý đội phân tích dữ liệu.",
+  "Bạn tham gia dự án công nghệ quốc tế."
+])
 }
 }
 
 if(career==="game"){
+let salary5 = rand(25,35);
+let salary10 = rand(50,75);
+
 return {
-salary5:"28 triệu/tháng",
-salary10:"55 triệu/tháng",
-skills:[85,80,60],
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(80,95), rand(70,90), rand(55,75)],
 color:"#9d4edd",
-desc5:"Bạn tham gia phát triển game và xây dựng thế giới ảo.",
-desc10:"Bạn có thể mở studio game riêng hoặc làm việc quốc tế."
+desc5: randomFrom([
+  "Bạn phát triển game indie sáng tạo.",
+  "Bạn làm việc trong studio game lớn.",
+  "Bạn xây dựng thế giới ảo hấp dẫn.",
+  "Bạn phát triển gameplay độc đáo."
+]),
+desc10: randomFrom([
+  "Bạn mở studio game riêng.",
+  "Bạn phát hành game đạt triệu lượt tải.",
+  "Bạn hợp tác với nhà phát hành quốc tế.",
+  "Bạn trở thành Game Director."
+])
 }
 }
 
 if(career==="business"){
+let salary5 = rand(30,45);
+let salary10 = rand(70,150);
+
 return {
-salary5:"35 triệu/tháng",
-salary10:"100 triệu/tháng",
-skills:[70,75,95],
+salary5: salary5 + " triệu/tháng",
+salary10: salary10 + " triệu/tháng",
+skills:[rand(65,80), rand(65,85), rand(90,100)],
 color:"#38b000",
-desc5:"Bạn khởi nghiệp và xây dựng dự án kinh doanh riêng.",
-desc10:"Bạn trở thành doanh nhân thành công và có hệ thống riêng."
+desc5: randomFrom([
+  "Bạn khởi nghiệp với dự án riêng.",
+  "Bạn xây dựng đội ngũ kinh doanh mạnh.",
+  "Bạn phát triển thương hiệu cá nhân.",
+  "Bạn mở rộng thị trường nhanh chóng."
+]),
+desc10: randomFrom([
+  "Bạn trở thành doanh nhân thành công.",
+  "Bạn sở hữu nhiều chi nhánh kinh doanh.",
+  "Bạn đầu tư vào nhiều lĩnh vực khác nhau.",
+  "Bạn xây dựng hệ sinh thái doanh nghiệp."
+])
 }
 }
+    
 }
 
 function simulate(){
@@ -358,10 +463,76 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 },2500);
 }
+
+const vanDeTheoNganh = {
+    dev: [
+        "Deadline dồn dập, sửa bug liên tục.",
+        "Công nghệ thay đổi quá nhanh.",
+        "Áp lực từ khách hàng.",
+        "Ngồi máy tính lâu ảnh hưởng sức khỏe.",
+        "Dự án bị đổi yêu cầu giữa chừng."
+    ],
+    designer: [
+        "Khách yêu cầu sửa thiết kế quá nhiều lần.",
+        "Ý tưởng bị trùng lặp hoặc thiếu sáng tạo.",
+        "Deadline gấp nhưng thiếu brief rõ ràng.",
+        "Bị ép giá hoặc đánh giá thấp công sức.",
+        "Áp lực phải bắt kịp xu hướng mới liên tục."
+    ],
+    teacher: [
+        "Học sinh thiếu tập trung hoặc không hợp tác.",
+        "Áp lực thành tích và thi cử.",
+        "Khối lượng chấm bài và soạn giáo án lớn.",
+        "Phụ huynh gây áp lực ngoài chuyên môn.",
+        "Thu nhập chưa tương xứng công sức."
+    ],
+
+    marketing: [
+        "Thuật toán nền tảng thay đổi liên tục.",
+        "Chi phí quảng cáo tăng cao.",
+        "Khó đo lường chính xác hiệu quả chiến dịch.",
+        "Áp lực KPI và doanh số.",
+        "Nội dung dễ bị bão hòa."
+    ],
+
+    data: [
+        "Dữ liệu bẩn, thiếu hoặc sai cấu trúc.",
+        "Hệ thống xử lý chậm khi dữ liệu lớn.",
+        "Yêu cầu thay đổi pipeline liên tục.",
+        "Khó đồng bộ giữa nhiều nguồn dữ liệu.",
+        "Áp lực đảm bảo bảo mật và chính xác."
+    ],
+
+    game: [
+        "Bug phát sinh ở giai đoạn cuối dự án.",
+        "Tối ưu hiệu năng khó khăn.",
+        "Thiếu ngân sách hoặc nhân lực.",
+        "Game không đạt kỳ vọng người chơi.",
+        "Áp lực phát hành đúng thời điểm."
+    ],
+
+    business: [
+        "Rủi ro tài chính cao.",
+        "Quản lý nhân sự phức tạp.",
+        "Thị trường biến động khó lường.",
+        "Áp lực duy trì lợi nhuận.",
+        "Cạnh tranh khốc liệt."
+    ]
+};
+
+function hienVanDe() {
+    const nganh = document.getElementById("career").value;
+    const danhSach = vanDeTheoNganh[nganh];
+    const random = Math.floor(Math.random() * danhSach.length);
+    document.getElementById("vanDe").innerText = danhSach[random];
+}
+
+document.getElementById("career").addEventListener("change", hienVanDe);
 </script>
 
 </body>
 </html>
+
 
 
 
