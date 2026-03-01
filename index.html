@@ -8,7 +8,20 @@
     
 </script>
 <style>
+    
+#matrixCanvas{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-1;
+  display:none;
+}
+    
 body{
+    <canvas id="matrixCanvas"></canvas>
+    
     font-family: Arial;
     background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     color:white;
@@ -532,6 +545,56 @@ desc10: randomFrom([
     
 }
 
+    let matrixInterval;
+
+function startMatrix(){
+  const canvas = document.getElementById("matrixCanvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.style.display = "block";
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+
+  const drops = [];
+  for(let i = 0; i < columns; i++){
+    drops[i] = 1;
+  }
+
+  function draw(){
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle = "#d580ff";
+    ctx.shadowColor = "#bb00ff";
+    ctx.shadowBlur = 10;
+    ctx.font = fontSize + "px monospace";
+
+    for(let i = 0; i < drops.length; i++){
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+
+      if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){
+        drops[i] = 0;
+      }
+
+      drops[i]++;
+    }
+  }
+
+  matrixInterval = setInterval(draw, 35);
+}
+
+function stopMatrix(){
+  const canvas = document.getElementById("matrixCanvas");
+  canvas.style.display = "none";
+  clearInterval(matrixInterval);
+}
+    
 function simulate(){
     
 let btn = document.querySelector("button");
@@ -627,6 +690,7 @@ let birthdate = document.getElementById("birthdate").value;
 let advancedText = "";
 
 if(advancedMode && birthdate){
+  startMatrix();
 
   document.body.classList.add("advanced-theme");
 
@@ -657,6 +721,7 @@ if(advancedMode && birthdate){
   bar.style.width = match + "%";
 
 }else{
+    stopMatrix();
   document.body.classList.remove("advanced-theme");
 }
 
@@ -715,6 +780,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
