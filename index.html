@@ -108,6 +108,27 @@ canvas{
     border-radius:10px;
     margin-top:20px;
 }
+    
+.result-box ul{
+  padding-left: 20px;
+  text-align: left;
+}
+
+.result-box li{
+  margin-bottom: 8px;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
 </style>
 </head>
 <body>
@@ -173,6 +194,12 @@ canvas{
 </div>
 
 <script>
+
+function randomMultiple(arr, min = 2, max = 3){
+  let count = Math.floor(Math.random() * (max - min + 1)) + min;
+  let shuffled = [...arr].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
     
 function rand(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -533,6 +560,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
