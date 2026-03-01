@@ -2,41 +2,10 @@
 <html lang="vi">
 <head> 
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/29/29302.png">
-    
-    <meta charset="UTF-8">
-    <title>LifeSim AI Pro+</title>
-    <style>
-    .fade-in {
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.6s ease;
-    }
-    .fade-in.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    </style>
+<meta charset="UTF-8">
+<title>LifeSim AI Pro+</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  overflow-x: hidden;
-}
-
-button {
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
 body{
     font-family: Arial;
     background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
@@ -68,15 +37,6 @@ button{
     padding:20px;
     border-radius:10px;
     display:none;
-
-    opacity:0;
-    transform:translateY(15px);
-    transition:all 0.6s ease;
-}
-
-.result.show{
-    opacity:1;
-    transform:translateY(0);
 }
 .progress-bar{
     width:100%;
@@ -135,7 +95,7 @@ canvas{
 </select>
 
 <br>
-<button onclick="simulate()"> 🚀 Hệ thống đang phân tích</button>
+<button onclick="simulate()">Phân tích bằng AI</button>
 
 <div class="loading" id="loading">
 <span class="spinner"></span> AI đang phân tích tương lai của bạn...
@@ -192,16 +152,12 @@ desc10:"Bạn có thể trở thành chuyên gia giáo dục hoặc quản lý."
 }
 
 function simulate(){
-
+    
 let btn = document.querySelector("button");
 btn.disabled = true;
 btn.innerText = "🤖 AI đang phân tích...";
-let output = document.getElementById("output");
-output.style.display="block";
 
-setTimeout(()=>{
-    output.classList.add("show");
-},50);
+document.getElementById("loading").style.display="block";
 document.getElementById("output").style.display="none";
 
 setTimeout(function(){
@@ -212,7 +168,6 @@ let career=document.getElementById("career").value;
 let data=careerData(career);
 
 document.getElementById("loading").style.display="none";
-document.getElementById("output").classList.remove("show");
 document.getElementById("output").style.display="block";
 
 document.getElementById("story5").innerText=
@@ -258,12 +213,12 @@ options:{
   }
 }
 });
+    btn.disabled = false;
+btn.innerText = "🚀 Phân tích tương lai";
 
 },2500);
 }
 </script>
 
 </body>
-
 </html>
-
