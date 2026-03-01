@@ -798,10 +798,10 @@ boxes.forEach((box, index) => {
   box.classList.add("slide-in", "glow");
 });
 
-document.getElementById("story5").innerText=
+document.getElementById("story5").innerHTML=
 name+" - 5 năm sau: "+data.desc5+
 "\n\n<br><span class='income-pink'>Cá tính nổi bật: "+personalityDesc+"</span>"+
-"\n<br><span class='income-blue'>Thu nhập: "+data.salary5 + "</span>"; 
+"\n<br><br><span class='income-blue'>Thu nhập: "+data.salary5 + "</span>"; 
 
 document.getElementById("story10").innerHTML =
 name + " - 10 năm sau: " + data.desc10 +
@@ -857,9 +857,9 @@ if(advancedMode && birthdate){
   let lifePath = getLifePath(birthdate);
   let element = getElement(dateObj.getFullYear());
 
-  advancedText += `🔮 <span style='color:#a54df7'>Cung: ${zodiac}\n${zodiacData[zodiac]}</span>\n\n`;
-  advancedText += `🔢 <span style='color:#a54df7'>Thần số học: ${lifePath}</span>\n`;
-  advancedText += `🌿 <span style='color:#a54df7'>Ngũ hành: ${element}</span>\n\n`;
+  advancedText += `🔮 <span style='color:#a54df7'>Cung: ${zodiac}\n${zodiacData[zodiac]}</span><br><br>`;
+  advancedText += `🔢 <span style='color:#a54df7'>Thần số học: ${lifePath}</span><br>`;
+  advancedText += `🌿 <span style='color:#a54df7'>Ngũ hành: ${element}</span><br><br>`;
 
   if(elementCareerBoost[element] && elementCareerBoost[element].includes(career)){
     match += 10;
@@ -938,6 +938,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
