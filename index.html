@@ -11,22 +11,21 @@
 
 body{
     background: linear-gradient(135deg,#0ee94c,#0aa83a,#064f1f);
-    background-size: 300% 300%;
+    background-size: 350% 350%;
     animation: greenMove 13s ease infinite;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }    
 .glow{
     animation:glowEffect 1.5s ease-in-out infinite alternate;
 }
 
 @keyframes greenMove{
-    0%{
+    from{
         background-position: 0% 50%;
     }
-    50%{
+    to{
         background-position: 100% 50%;
-    }
-    100%{
-        background-position: 0% 50%;
     }
 }
 
@@ -853,6 +852,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
