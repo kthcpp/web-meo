@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>LifeSim AI Pro+</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body{
+    font-family: Arial;
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+.container{
+    background: rgba(255,255,255,0.08);
+    padding:25px;
+    border-radius:15px;
+    width:850px;
+    margin:auto;
+}
+input, select, button{
+    padding:10px;
+    margin:8px;
+    border-radius:8px;
+    border:none;
+}
+button{
+    background:#00c9a7;
+    color:white;
+    cursor:pointer;
+}
+.result{
+    margin-top:20px;
+    background:rgba(0,0,0,0.4);
+    padding:20px;
+    border-radius:10px;
+    display:none;
+}
+.progress-bar{
+    width:100%;
+    background:#444;
+    border-radius:20px;
+    overflow:hidden;
+}
+.progress{
+    height:20px;
+    background:#00ffcc;
+    width:0%;
+    transition:0.6s;
+}
+.loading{
+    display:none;
+    font-size:20px;
+    margin-top:15px;
+}
+.spinner{
+    border:4px solid #ccc;
+    border-top:4px solid #00ffcc;
+    border-radius:50%;
+    width:25px;
+    height:25px;
+    animation:spin 1s linear infinite;
+    display:inline-block;
+}
+@keyframes spin{
+    100%{transform:rotate(360deg);}
+}
+canvas{
+    background:white;
+    border-radius:10px;
+    margin-top:20px;
+}
+</style>
+</head>
+<body>
+
+<h1>🎭 LifeSim AI - PRO+</h1>
+
+<div class="container">
+
+<input type="text" id="name" placeholder="Nhập tên của bạn"><br>
+
+<select id="personality">
+<option value="logic">Tư duy logic</option>
+<option value="creative">Sáng tạo</option>
+<option value="social">Hướng ngoại</option>
+</select>
+
+<select id="career">
+<option value="dev">Lập trình viên</option>
+<option value="designer">Thiết kế đồ họa</option>
+<option value="teacher">Giáo viên</option>
+</select>
+
+<br>
+<button onclick="simulate()">Phân tích bằng AI</button>
+
+<div class="loading" id="loading">
+<span class="spinner"></span> AI đang phân tích tương lai của bạn...
+</div>
+
+<div class="result" id="output">
+<h2>Kết quả 5 năm</h2>
+<p id="story5"></p>
+
+<h2>Kết quả 10 năm</h2>
+<p id="story10"></p>
+
+<h3>Mức độ phù hợp</h3>
+<div class="progress-bar">
+<div class="progress" id="matchBar"></div>
+</div>
+
+<canvas id="skillChart"></canvas>
+</div>
+
+</div>
+
+<script>
+let chartInstance;
+
+function careerData(career){
+if(career==="dev"){
+return {
+salary5:"25 triệu/tháng",
+salary10:"50 triệu/tháng",
+skills:[90,60,50],
+desc5:"Bạn làm việc tại công ty công nghệ, tham gia nhiều dự án phần mềm.",
+desc10:"Bạn trở thành senior developer hoặc leader team."
+}
+}
+if(career==="designer"){
+return {
+salary5:"20 triệu/tháng",
+salary10:"40 triệu/tháng",
+skills:[50,95,70],
+desc5:"Bạn làm việc sáng tạo với thương hiệu và sản phẩm.",
+desc10:"Bạn có thể mở studio riêng hoặc làm freelance quốc tế."
+}
+}
+if(career==="teacher"){
+return {
+salary5:"15 triệu/tháng",
+salary10:"30 triệu/tháng",
+skills:[60,70,95],
+desc5:"Bạn giảng dạy và truyền cảm hứng cho học sinh.",
+desc10:"Bạn có thể trở thành chuyên gia giáo dục hoặc quản lý."
+}
+}
+}
+
+function simulate(){
+
+document.getElementById("loading").style.display="block";
+document.getElementById("output").style.display="none";
+
+setTimeout(function(){
+
+let name=document.getElementById("name").value;
+let personality=document.getElementById("personality").value;
+let career=document.getElementById("career").value;
+let data=careerData(career);
+
+document.getElementById("loading").style.display="none";
+document.getElementById("output").style.display="block";
+
+document.getElementById("story5").innerText=
+name+" - 5 năm sau: "+data.desc5+" Thu nhập: "+data.salary5;
+
+document.getElementById("story10").innerText=
+name+" - 10 năm sau: "+data.desc10+" Thu nhập: "+data.salary10;
+
+let match=70;
+if(personality==="logic" && career==="dev") match=90;
+if(personality==="creative" && career==="designer") match=90;
+if(personality==="social" && career==="teacher") match=90;
+
+document.getElementById("matchBar").style.width=match+"%";
+
+if(chartInstance) chartInstance.destroy();
+
+chartInstance = new Chart(document.getElementById("skillChart"),{
+type:'bar',
+data:{
+labels:["Logic","Sáng tạo","Giao tiếp"],
+datasets:[{
+label:"Kỹ năng cần thiết",
+data:data.skills
+}]
+},
+options:{responsive:true}
+});
+
+},2500);
+}
+</script>
+
+</body>
+</html>
