@@ -256,6 +256,25 @@ canvas:not(#matrixCanvas){
 
 <script>
 
+    /////
+let value = 100;      // độ sáng ban đầu
+let direction = 1;    // 1 = tăng, -1 = giảm
+
+function animate() {
+    value += direction;
+
+    if (value >= 255) direction = -1; 
+    if (value <= 50) direction = 1;
+
+    document.getElementById("box").style.backgroundColor =
+        `rgb(${value}, ${value}, 255)`;
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+    //////
+
 function randomMultiple(arr, min = 2, max = 3){
   let count = Math.floor(Math.random() * (max - min + 1)) + min;
   let shuffled = [...arr].sort(() => 0.5 - Math.random());
@@ -852,6 +871,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
