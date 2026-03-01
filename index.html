@@ -799,9 +799,13 @@ boxes.forEach((box, index) => {
 
 document.getElementById("story5").innerHTML=
 name+" - 5 năm sau: "+data.desc5+
-"\n\n<br><span class='income-pink'>Cá tính nổi bật: </span>"+ <span class='income-blue'>personalityDesc+
-"\n<br><br>Thu nhập: " + data.salary5 </span>; 
-
+`
+<br><br>
+<span class="income-pink">Cá tính nổi bật:</span> 
+<span class="income-blue">${personalityDesc}</span>
+<br><br>
+<span class="income-blue">Thu nhập: ${data.salary5}</span>
+`;
 document.getElementById("story10").innerHTML =
 name + " - 10 năm sau: " + data.desc10 +
 "<br><span class='income-blue'>Thu nhập: " + data.salary10 + "</span>";
@@ -937,6 +941,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
