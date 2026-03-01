@@ -57,14 +57,21 @@ body.advanced-theme::before{
 animation: slideInRight 0.9s cubic-bezier(.22,1,.36,1) forwards;
     
 .result-box{
-    backdrop-filter: blur(8px);
-    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    background: rgba(0, 255, 200, 0.08);;
     padding:18px;
     border-radius:12px;
     margin:15px 0;
     text-align:left;
     transition:0.4s;
-    border:1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(0, 255, 200, 0.3);
+    box-shadow: 0 0 20px rgba(0,255,200,0.15);
+}
+
+.advanced-theme .result-box{
+    background: rgba(187, 0, 255, 0.08);
+    border: 1px solid rgba(187, 0, 255, 0.4);
+    box-shadow: 0 0 25px rgba(187,0,255,0.25);
 }
 
 .result-box:hover{
@@ -747,17 +754,15 @@ document.getElementById("output").style.display="block";
 
 let boxes = document.querySelectorAll(".result-box");
 boxes.forEach((box, index) => {
-  box.classList.remove("slide-in");
-  void box.offsetWidth; // reset animation
-  box.style.animationDelay = (index * 0.15) + "s"; // trễ từng box
-  box.classList.add("slide-in");
-});
-    //////////////////////////////
-let boxes = document.querySelectorAll(".result-box");
-boxes.forEach(box=>{
-  box.classList.remove("glow");
+  // reset animation
+  box.classList.remove("slide-in", "glow");
   void box.offsetWidth;
-  box.classList.add("glow");
+
+  // delay trượt
+  box.style.animationDelay = (index * 0.15) + "s";
+
+  // thêm lại hiệu ứng
+  box.classList.add("slide-in", "glow");
 });
 
 document.getElementById("story5").innerText=
@@ -899,6 +904,7 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
 
 
