@@ -86,6 +86,10 @@ canvas{
 <option value="logic">Tư duy logic</option>
 <option value="creative">Sáng tạo</option>
 <option value="social">Hướng ngoại</option>
+<option value="leader">Lãnh đạo</option>
+<option value="analyst">Phân tích dữ liệu</option>
+<option value="independent">Độc lập</option>
+<option value="adaptive">Thích nghi nhanh</option>
 </select>
 
 <select id="career">
@@ -164,6 +168,16 @@ setTimeout(function(){
 
 let name=document.getElementById("name").value;
 let personality=document.getElementById("personality").value;
+let personalityDesc = "";
+
+if(personality==="logic") personalityDesc="Bạn có tư duy hệ thống và giải quyết vấn đề tốt.";
+if(personality==="creative") personalityDesc="Bạn có khả năng sáng tạo và đổi mới cao.";
+if(personality==="social") personalityDesc="Bạn giỏi giao tiếp và kết nối con người.";
+if(personality==="leader") personalityDesc="Bạn có tố chất dẫn dắt và truyền cảm hứng.";
+if(personality==="analyst") personalityDesc="Bạn phân tích dữ liệu và ra quyết định logic.";
+if(personality==="independent") personalityDesc="Bạn làm việc độc lập và tự chủ tốt.";
+if(personality==="adaptive") personalityDesc="Bạn thích nghi nhanh với môi trường mới.";
+    
 let career=document.getElementById("career").value;
 let data=careerData(career);
 
@@ -171,15 +185,28 @@ document.getElementById("loading").style.display="none";
 document.getElementById("output").style.display="block";
 
 document.getElementById("story5").innerText=
-name+" - 5 năm sau: "+data.desc5+" Thu nhập: "+data.salary5;
+name+" - 5 năm sau: "+data.desc5+
+"\n\nCá tính nổi bật: "+personalityDesc+
+"\nThu nhập: "+data.salary5;
 
 document.getElementById("story10").innerText=
 name+" - 10 năm sau: "+data.desc10+" Thu nhập: "+data.salary10;
 
-let match=70;
-if(personality==="logic" && career==="dev") match=90;
-if(personality==="creative" && career==="designer") match=90;
-if(personality==="social" && career==="teacher") match=90;
+let match=65;
+
+// dev
+if(personality==="logic" && career==="dev") match=92;
+if(personality==="analyst" && career==="dev") match=88;
+if(personality==="independent" && career==="dev") match=85;
+
+// designer
+if(personality==="creative" && career==="designer") match=92;
+if(personality==="adaptive" && career==="designer") match=85;
+
+// teacher
+if(personality==="social" && career==="teacher") match=92;
+if(personality==="leader" && career==="teacher") match=88;
+if(personality==="adaptive" && career==="teacher") match=85;
 
 let bar = document.getElementById("matchBar");
 bar.style.width = "0%";
@@ -222,3 +249,4 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
