@@ -13,6 +13,26 @@ body{
     text-align:center;
     padding:20px;
 }
+.result-box{
+    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.08);
+    padding:18px;
+    border-radius:12px;
+    margin:15px 0;
+    text-align:left;
+    transition:0.4s;
+    border:1px solid rgba(255,255,255,0.15);
+}
+
+.result-box:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.4);
+}
+
+.result-box h2{
+    margin-top:0;
+    color:#00ffcc;
+}
 .container{
     background: rgba(255,255,255,0.08);
     padding:25px;
@@ -106,11 +126,16 @@ canvas{
 </div>
 
 <div class="result" id="output">
-<h2>Kết quả 5 năm</h2>
-<p id="story5"></p>
+    
+<div class="result-box">
+  <h2>🚀 Kết quả 5 năm</h2>
+  <p id="story5"></p>
+</div>
 
-<h2>Kết quả 10 năm</h2>
-<p id="story10"></p>
+<div class="result-box">
+  <h2>🌟 Kết quả 10 năm</h2>
+  <p id="story10"></p>
+</div>
 
 <h3>Mức độ phù hợp</h3>
 <div class="progress-bar">
@@ -249,4 +274,5 @@ btn.innerText = "🚀 Phân tích tương lai";
 
 </body>
 </html>
+
 
