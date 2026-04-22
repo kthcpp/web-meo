@@ -696,243 +696,93 @@ function stopMatrix(){
     
 function simulate(){
     
-let btn = document.querySelector("button");
-btn.disabled = true;
-btn.innerText = "🤖 AI đang phân tích...";
+  async function simulate(){
 
-document.getElementById("loading").style.display="block";
-document.getElementById("output").style.display="none";
+  let btn = document.querySelector("button");
+  btn.disabled = true;
+  btn.innerText = "🤖 AI đang phân tích...";
 
-setTimeout(function(){
+  document.getElementById("loading").style.display="block";
+  document.getElementById("output").style.display="none";
 
-let name=document.getElementById("name").value;
-let personality=document.getElementById("personality").value;
-let personalityDesc = "";
+  let name = document.getElementById("name").value;
+  if(!name) name = "Bạn";
 
-if(personality==="logic")
-personalityDesc = randomFrom([
-    "Bạn có tư duy hệ thống và giải quyết vấn đề tốt.",
-    "Bạn suy nghĩ theo cấu trúc rõ ràng và logic.",
-    "Bạn thích phân tích vấn đề trước khi hành động.",
-    "Bạn xử lý tình huống dựa trên lý trí và lập luận."
-]);
+  let personality = document.getElementById("personality").value;
+  let career = document.getElementById("career").value;
+  let birthdate = document.getElementById("birthdate").value;
 
-if(personality==="creative")
-personalityDesc = randomFrom([
-    "Bạn có khả năng sáng tạo và đổi mới cao.",
-    "Bạn luôn nghĩ ra những ý tưởng khác biệt.",
-    "Bạn thích thử nghiệm những hướng đi mới.",
-    "Bạn có tư duy linh hoạt và giàu tưởng tượng."
-]);
+  try{
 
-if(personality==="social")
-personalityDesc = randomFrom([
-    "Bạn giỏi giao tiếp và kết nối con người.",
-    "Bạn dễ dàng tạo thiện cảm với người khác.",
-    "Bạn phát triển mạnh trong môi trường tập thể.",
-    "Bạn xây dựng mối quan hệ rất tự nhiên."
-]);
+  let res = await fetch("http://localhost:3000/analyze",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body: JSON.stringify({
+      name, personality, career, birthdate
+    })
+  });
 
-if(personality==="leader")
-personalityDesc = randomFrom([
-    "Bạn có tố chất dẫn dắt và truyền cảm hứng.",
-    "Bạn tự tin đưa ra quyết định quan trọng.",
-    "Bạn có khả năng định hướng cho tập thể.",
-    "Bạn dễ trở thành trung tâm của một nhóm."
-]);
+  let data = await res.json();
 
-if(personality==="analyst")
-personalityDesc = randomFrom([
-    "Bạn phân tích dữ liệu và ra quyết định logic.",
-    "Bạn chú ý đến chi tiết và độ chính xác.",
-    "Bạn suy nghĩ kỹ trước khi kết luận.",
-    "Bạn đánh giá vấn đề dựa trên bằng chứng."
-]);
+  // parse JSON từ AI
+  let parsed;
+  try{
+    parsed = JSON.parse(data.result);
+  }catch{
+    parsed = {
+      story5: data.result,
+      story10: "AI chưa format đúng",
+      problems: ["Không parse được"],
+      advanced: ""
+    };
+  }
 
-if(personality==="independent")
-personalityDesc = randomFrom([
-    "Bạn làm việc độc lập và tự chủ tốt.",
-    "Bạn không phụ thuộc vào người khác khi ra quyết định.",
-    "Bạn thích tự chịu trách nhiệm cho lựa chọn của mình.",
-    "Bạn có tinh thần tự lập mạnh mẽ."
-]);
+  // ===== HIỂN THỊ =====
+  document.getElementById("story5").innerHTML = parsed.story5;
+  document.getElementById("story10").innerHTML = parsed.story10;
 
-if(personality==="adaptive")
-personalityDesc = randomFrom([
-    "Bạn thích nghi nhanh với môi trường mới.",
-    "Bạn linh hoạt trước những thay đổi bất ngờ.",
-    "Bạn dễ dàng hòa nhập với hoàn cảnh khác nhau.",
-    "Bạn xử lý biến động một cách bình tĩnh."
-]);
-    
-let career=document.getElementById("career").value;
-let data=careerData(career);
+  // vấn đề
+  let html = "<ul>";
+  (parsed.problems || []).forEach(p=>{
+    html += "<li>! "+p+"</li>";
+  });
+  html += "</ul>";
 
-let vanDeList = vanDeTheoNganh[career];
-let randomVanDeArr = randomMultiple(vanDeList, 2, 3);
+  document.getElementById("vanDe").innerHTML = html;
+  document.getElementById("advancedResult").innerHTML = parsed.advanced || "";
 
-let vanDeHTML = "<ul>";
-randomVanDeArr.forEach(v => {
-  vanDeHTML += "<li>! " + v + "</li>";
-});
-vanDeHTML += "</ul>";
+  // ===== PROGRESS =====
+  let match = Math.floor(Math.random()*30)+70;
+  let bar = document.getElementById("matchBar");
+  bar.style.width = "0%";
+  setTimeout(()=>{
+    bar.style.width = match + "%";
+  },200);
 
-document.getElementById("vanDe").innerHTML = vanDeHTML;
+  // ===== MATRIX MODE =====
+  let advancedMode = document.getElementById("advancedMode").checked;
 
-document.getElementById("loading").style.display="none";
-document.getElementById("output").style.display="block";
-
-let boxes = document.querySelectorAll(".result-box");
-boxes.forEach((box, index) => {
-  // reset animation
-  box.classList.remove("slide-in", "glow");
-  void box.offsetWidth;
-
-  // delay trượt
-  box.style.animationDelay = (index * 0.15) + "s";
-
-  // thêm lại hiệu ứng
-  box.classList.add("slide-in", "glow");
-});
-
-document.getElementById("story5").innerHTML=
-name+" - 5 năm sau: "+data.desc5+
-`
-<br><br>
-<span class="income-pink">Cá tính nổi bật:</span> 
-<span class="income-blue">${personalityDesc}</span>
-<br><br>
-<span class="income-blue">Thu nhập: ${data.salary5}</span>
-`;
-document.getElementById("story10").innerHTML =
-name + " - 10 năm sau: " + data.desc10 +
-"<br><span class='income-blue'>Thu nhập: " + data.salary10 + "</span>";
-
-let match=65;
-
-// dev
-if(personality==="logic" && career==="dev") match=92;
-if(personality==="analyst" && career==="dev") match=88;
-if(personality==="independent" && career==="dev") match=85;
-
-// designer
-if(personality==="creative" && career==="designer") match=92;
-if(personality==="adaptive" && career==="designer") match=85;
-
-// teacher
-if(personality==="social" && career==="teacher") match=92;
-if(personality==="leader" && career==="teacher") match=88;
-if(personality==="adaptive" && career==="teacher") match=85;
-
-// marketing
-if(personality==="social" && career==="marketing") match=92;
-if(personality==="creative" && career==="marketing") match=88;
-
-// data
-if(personality==="analyst" && career==="data") match=95;
-if(personality==="logic" && career==="data") match=90;
-
-// game
-if(personality==="creative" && career==="game") match=92;
-if(personality==="logic" && career==="game") match=85;
-
-// business
-if(personality==="leader" && career==="business") match=95;
-if(personality==="adaptive" && career==="business") match=88;
-
-let bar = document.getElementById("matchBar");
-bar.style.width = "0%";
-
-// 🔮 ===== PHÂN TÍCH HUYỀN HỌC PRO MAX =====
-let advancedMode = document.getElementById("advancedMode").checked;
-let birthdate = document.getElementById("birthdate").value;
-let advancedText = "";
-
-if(advancedMode && birthdate){
-  startMatrix();
-
-  document.body.classList.add("advanced-theme");
-
-  let dateObj = new Date(birthdate);
-  let zodiac = getZodiac(dateObj.getDate(), dateObj.getMonth()+1);
-  let lifePath = getLifePath(birthdate);
-  let element = getElement(dateObj.getFullYear());
-
-  advancedText += `🔮 <span style='color:#a54df7'>Cung: ${zodiac}\n${zodiacData[zodiac]}</span><br><br>`;
-  advancedText += `🔢 <span style='color:#a54df7'>Thần số học: ${lifePath}</span><br>`;
-  advancedText += `🌿 <span style='color:#a54df7'>Ngũ hành: ${element}</span><br><br>`;
-
-  if(elementCareerBoost[element] && elementCareerBoost[element].includes(career)){
-    match += 10;
-    advancedText += "✨ <span style='color:#f7cd4d'>Ngành nghề này tương sinh với ngũ hành của bạn</span>.\n";
+  if(advancedMode){
+    startMatrix();
+    document.body.classList.add("advanced-theme");
   }else{
-    match -= 5;
-    advancedText += "⚠ <span style='color:#4d5bf7'>Ngành này có thể không hoàn toàn tương hợp ngũ hành.</span>\n";
-  }
-
-  if(lifePath === 1 || lifePath === 8){
-    match += 5;
-  }
-
-  if(match > 100) match = 100;
-  if(match < 40) match = 40;
-
-  bar.style.width = match + "%";
-
-}else{
     stopMatrix();
-  document.body.classList.remove("advanced-theme");
-}
-
-bar.style.width = "0%";
-
-setTimeout(()=>{
-  bar.style.width = match + "%";
-},200);
-
-document.getElementById("advancedResult").innerHTML = advancedText;
-
-let advancedBox = document
-  .getElementById("advancedResult")
-  .parentElement;
-
-if(advancedMode && birthdate){
-  advancedBox.classList.add("advanced-box");
-}else{
-  advancedBox.classList.remove("advanced-box");
-}
-
-if(chartInstance) chartInstance.destroy();
-
-chartInstance = new Chart(document.getElementById("skillChart"),{
-type:'bar',
-data:{
-labels:["Logic","Sáng tạo","Giao tiếp"],
-datasets:[{
-label:"Kỹ năng cần thiết",
-data:data.skills,
-backgroundColor:data.color,
-borderRadius:8
-}]
-},
-options:{
-  responsive:true,
-  animation:{
-    duration:1500,
-    easing:'easeOutQuart'
-  },
-  scales:{
-    y:{
-      beginAtZero:true,
-      max:100
-    }
+    document.body.classList.remove("advanced-theme");
   }
-}
-});
-    btn.disabled = false;
-btn.innerText = "🚀 Phân tích tương lai";
 
-},2500);
+  }catch(err){
+    alert("Lỗi API: " + err.message);
+  }
+
+  document.getElementById("loading").style.display="none";
+  document.getElementById("output").style.display="block";
+
+  btn.disabled = false;
+  btn.innerText = "🚀 Phân tích tương lai";
+  }
+
 }
 
 </script>
